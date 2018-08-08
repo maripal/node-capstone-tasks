@@ -1,11 +1,13 @@
+"use strict";
+
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+
+const app = require('../server');
 
 const expect = chai.expect;
 
 chai.use(chaiHttp);
-
-const app = require('../server');
 
 describe ('Home Page', function() {
     it('should load and work correctly', function() {
