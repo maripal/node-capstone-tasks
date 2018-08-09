@@ -11,7 +11,8 @@ chai.use(chaiHttp);
 
 describe ('Home Page', function() {
     it('should load and work correctly', function() {
-        return chai.request(app)
+        return chai
+        .request(app)
         .get('/')
         .then(res => {
             expect(res).to.have.status(200);
