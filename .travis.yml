@@ -4,6 +4,6 @@ deploy:
   provider: heroku
   api_key:
     secure: h7m8lvDzaVuZPXpmrR14xBuc4o74oOzJO5aE8TkcxXX5Kbm3fGCgjHMg9UJZlV3t1x2rVhPVAIpm6co3AMxoKAVTUvtWyoZLUdY1Og5vFlMayYrjyuwl61EuBrNCtIJZ5GepUm9ymh3hLdPx1egQQ3y4x/1NnHyfe4jBbX4M0ct+JXimDVKPjAOpXRraEMk9vP6kV0nuKTpa7cIq/QQJHy+hOoUU2VS+I07fBeQR6pTNZHn2neShwhx104zULTjb49ofKXnihsCp3eSifszAq3shdxJKUdHWPmO6hpg1zBk1Wb/cXIgE4HOkgqJIGrY2s/8xb2trJmfJNpUanRiD7QGGkSahy2+Py58ZGc7vqBUVRiF5Di95TmxpeWXyT4/Ce8vI2qg3m1TPseK1S20DoPi5CCGlDaPIxt82yKOspOicKcFfRLJxrHLv1A2GrkhFxzOadPWvBxX3+ZMeUPrJnjxH2F/CxR+4POhbq+P3bddiEaJ+/y3wrz3/HAd8e1UPKu6ZFhsdKyvfVtqxG19caXvxC0PDQ/npzr4AtvzpAUApm4vf6B3+Pvfa0VDuTyLuFtc7JmXihd75uuV9uJpJgqB44O7wQdsbMCDxIIWVUuJfb0pO935nScWEzFlsyyiAlu8afzxXy/2nqAfe0KC8w9H83PVkELTn4yN/tiwrvFQ=
-  app: node-capstone-tasks
+  app: gentle-wave-35225
   on:
     repo: maripal/node-capstone-tasks
