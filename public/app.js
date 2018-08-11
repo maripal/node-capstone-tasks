@@ -51,39 +51,55 @@ function getTasks(callbackFn) {
 //function to display tasks. This will not change.
 function displayTasks(data) {
     for (index in data.tasks) {
-        let checkedOffTask;
-        $('ul').append(
+        $('.taskList').append(
             '<li>' + data.tasks[index].text + '</li>'
         );
             // if the task is checked off
-            if (data.tasks[index].checkedOff_date) {
-                $('li').css({'text-decoration': 'line-through'});
-            }
+            //if (data.tasks[index].checkedOff_date) {
+            //    $('li').css({'text-decoration': 'line-through'});
+            //}
     };
     
 }
 
-function deleteTask(data) {
-    //let deletedTask = tasks.filter(task => task.id === "0111111");
-    //return deletedTask;
-    //console.log(deletedTask);
-
-    for (index in data.tasks) {
-        if (data.tasks[index].id !== "0111111") {
-        $('.deletedTask').append(
-            '<p>' + data.tasks[index].text + '</p>'
-        );
-    }
-    };
-
+function createATask() {
+    $('.create').on('click', function() {
+        // open the pop up window to input a new task
+        $('.createNewTaskPopUp').toggle();
+    });
 }
+
+// function to submit a new task to list
+function submitNewTaskButton() {
+    $('.js-create-new-task').submit(function(event) {
+        event.preventDefault();
+        let targetInput = $(event.currentTarget).find('#js-new-task-input');
+        let newTask = targetInput.val();
+        targetInput.val("");
+        console.log(newTask);
+        $('.taskList').append(` <li> ${newTask} </li>`);
+        // to hide new task input after submitting a new task
+        $('.createNewTaskPopUp').toggle();
+    });
+}
+
+//function deleteTask(data) {
+//    for (index in data.tasks) {
+//        if (data.tasks[index].id !== "0111111") {
+//        $('.deletedTask').append(
+//            '<p>' + data.tasks[index].text + '</p>'
+//        );
+//    }
+//    };
+//}
 
 function getAndDisplayTasks() {
     getTasks(displayTasks);
-    getTasks(deleteTask);
-
+    //getTasks(deleteTask);
 }
 
 $(getAndDisplayTasks);
+$(createATask);
+$(submitNewTaskButton);
 //$(deleteTask);
 
