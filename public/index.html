@@ -1,22 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+
         <title>Node App</title>
+        <link rel="stylesheet" type="text/css" href="main.css">
     </head>
 
     <body>
         <h1>Hello World!</h1>
 
+        <!-- Task List Section-->
         <div class="tasksListSection">
             <h1>Task List</h1>
-            <ul>
+            <ul class="taskList">
                 
             </ul>
         </div>
 
-        <div class="deletedTask">
-            <h1>Deleted Task List</h1>
-     
+        <!-- Buttons for different task actions -->
+        <div>
+            <button class="create" type="button">Create Task</button>
+            <button class="delete" type="button">Delete Task</button>
+            <button class="checkOff" type="button">Check Off Task</button>
+        </div>
+
+        <!-- Pop up form to create a new task -->
+        <div class="createNewTaskPopUp">
+            <form action="#" class="js-create-new-task">
+                <label for="js-new-task-input">
+                    <input type="text" id="js-new-task-input" name="js-new-task-input" placeholder="Enter new task" required>
+                    <button class="submitTask" type="submit">Submit</button>
+                </label>
+            </form>
         </div>
 
         <script
