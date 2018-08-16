@@ -1,4 +1,4 @@
-.createNewTaskPopUp {
+.createNewPostPopUp {
     display: none;
     width: 300px;
     padding: 50px;
@@ -9,6 +9,10 @@
     margin-right: auto;
 }
 
-#js-new-task-input {
+#js-new-post-input {
     width: 300px;
+}
+
+.deleting {
+    cursor: pointer;
 }
