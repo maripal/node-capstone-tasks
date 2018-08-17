@@ -83,6 +83,8 @@ function deleteButton() {
     $('.delete').on('click', function() {
         $(this).toggleClass('deleting');
         $('li').toggleClass('deleting');
+
+        // this event handler removes list item clicked on
         $('ul').on('click', 'li', function() {
             $(this).remove();
         });
@@ -92,8 +94,10 @@ function deleteButton() {
 // function to make check-off button work
 function checkOffButton() {
     $('.checkOff').on('click', function() {
-        $('li').addClass('checkOffSign');
-    })
+        $('li').on('click', function() {
+            $(this).toggleClass('checkOffSign');
+        });
+    });
 }
 
 function getAndDisplayPosts() {
@@ -104,5 +108,6 @@ $(getAndDisplayPosts);
 $(createAPost);
 $(submitNewPostButton);
 $(deleteButton);
+$(checkOffButton);
 
 
