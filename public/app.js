@@ -54,12 +54,7 @@ function displayPosts(data) {
         $('.postList').append(
             '<li>' + data.posts[index].text + '</li>'
         );
-            // if the post is checked off
-            //if (data.posts[index].checkedOff_date) {
-            //    $('li').css({'text-decoration': 'line-through'});
-            //}
-    };
-    
+    };  
 }
 
 function createAPost() {
@@ -83,17 +78,22 @@ function submitNewPostButton() {
     });
 }
 
+// function to make delete button work
 function deleteButton() {
     $('.delete').on('click', function() {
         $(this).toggleClass('deleting');
         $('li').toggleClass('deleting');
+        $('ul').on('click', 'li', function() {
+            $(this).remove();
+        });
     });
 }
 
-function deletePost() {
-    $('ul').on('click', 'li', function() {
-        $(this).remove();
-    });
+// function to make check-off button work
+function checkOffButton() {
+    $('.checkOff').on('click', function() {
+        $('li').addClass('checkOffSign');
+    })
 }
 
 function getAndDisplayPosts() {
@@ -104,5 +104,5 @@ $(getAndDisplayPosts);
 $(createAPost);
 $(submitNewPostButton);
 $(deleteButton);
-$(deletePost);
+
 

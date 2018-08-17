@@ -16,3 +16,7 @@
 .deleting {
     cursor: pointer;
 }
+
+.checkOffSign {
+    text-decoration: line-through;
+}
