@@ -87,6 +87,7 @@ function deleteButton() {
         // this event handler removes list item clicked on
         $('ul').on('click', 'li', function() {
             $(this).remove();
+            $('ul').unbind();
         });
     });
 }
