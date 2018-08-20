@@ -1,0 +1,42 @@
+body {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.postsListSection {
+    margin: 0 auto;
+    width: 500px;
+    border: 1px solid black;
+    padding-left: 20px;
+    margin-top: 100px;
+}
+
+.buttonsSection {
+    margin: 0 auto;
+    width: 300px;
+    margin-top: 20px;
+}
+
+.createNewPostPopUp {
+    display: none;
+    width: 300px;
+    padding: 50px;
+    margin-top: 50px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#js-new-post-input {
+    width: 300px;
+}
+
+.deleting {
+    cursor: pointer;
+}
+
+.checkOffSign {
+    text-decoration: line-through;
+}
