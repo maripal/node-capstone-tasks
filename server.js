@@ -14,6 +14,7 @@ app.use(express.static('public'));
 
 let server;
 
+// function that connects to database, and starts server
 function runServer(databaseUrl, port=PORT) {
     return new Promise((resolve, reject) => {
         mongoose.connect(databaseUrl, err => {
@@ -27,6 +28,21 @@ function runServer(databaseUrl, port=PORT) {
             .on('error', err => {
                 mongoose.disconnect();
                 reject(err);
+            });
+        });
+    });
+}
+
+// function that closes the server
+function closeServer() {
+    return mongoose.disconnect().then(() => {
+        return new Promise((resolve, reject) => {
+            console.log('Closing server');
+            server.close(err => {
+                if(err) {
+                    return reject(err);
+                }
+                resolve();
             });
         });
     });
