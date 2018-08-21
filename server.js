@@ -1,16 +1,31 @@
 "use strict";
 
 const express = require('express');
-const moment = require('moment');
+const morgan = require('morgan');
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 mongoose.Promise = global.Promise;
 
 const app = express();
 const {PORT, DATABASE_URL} = require('./config');
+const { GoalPost } = require('./posts-list/postslist-models');
 
+app.use(morgan('common'));
+//app.use(express.static('public'));
+app.use(express.json());
 
-app.use(express.static('public'));
+app.get('/posts', (req, res) => {
+    GoalPost
+    .find()
+    .then(posts => {
+        res.json({goalposts : posts.map(post => post.serialize())});
+    })
+    .catch(err => {
+        console.error(err);
+        res.status(500).json({error: 'Oops. Something went wrong.'});
+    });
+})
 
 let server;
 
@@ -49,9 +64,7 @@ function closeServer() {
 }
 
 if (require.main === module) {
-    app.listen(process.env.PORT || 8080, () => {
-        console.info(`Your is listening on port ${process.env.PORT}`);
-    });
+    runServer(DATABASE_URL).catch(err => console.error(err));
 }
 
-module.exports = app;
+module.exports = { runServer, app, closeServer };
