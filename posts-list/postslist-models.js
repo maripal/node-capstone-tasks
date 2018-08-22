@@ -7,7 +7,7 @@ const goalPostSchema = mongoose.Schema({
     User : {type : mongoose.Schema.Types.ObjectId, ref:'User'},
     Text : {type: String, required: true},
     Created : {type: Date, default: Date.now},
-    //Completed: {type: boolean}
+    Completed: Boolean
 });
 
 goalPostSchema.methods.serialize = function() {
