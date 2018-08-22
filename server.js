@@ -12,18 +12,20 @@ const app = express();
 const {PORT, DATABASE_URL} = require('./config');
 const { GoalPost } = require('./posts-list/postslist-models');
 
-const postsRouter = require('./posts-list/postslist-router');
+const router = require('./posts-list/postslist-router');
 
 app.use(morgan('common'));
 app.use(express.static('public'));
 app.use(express.json());
+app.use(bodyParser.json());
+app.use('/posts', router);
 
 // GET endpoint
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public/index.html');
+    res.status(200).res.sendFile(__dirname + "/views/index.html");
 });
 
-app.use('/posts', postsRouter);
+
 
 
 /*app.post('/posts', (req, res) => {
