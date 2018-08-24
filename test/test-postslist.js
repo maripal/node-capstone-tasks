@@ -164,5 +164,27 @@ describe('Posts API', function() {
         });
     });
 
-    
+    // test for DELETE enpoint
+    describe('DELETE endpoint', function() {
+
+        it('should delete a post by id', function() {
+
+            let post;
+
+            return GoalPost
+                findOne()
+                .then(function(_post) {
+                    post = _post;
+                    return chai.request(app)
+                    .delete(`/posts/${post.id}`)
+                })
+                .then(function(res) {
+                    expect(res).to.have.status(204);
+                    return GoalPost.findById(post.id);
+                })
+                .then(function(res) {
+                    expect(_post).to.be.null;
+                });
+        });
+    });
 });
