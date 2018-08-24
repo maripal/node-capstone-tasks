@@ -11,6 +11,7 @@ mongoose.Promise = global.Promise;
 const app = express();
 const {PORT, DATABASE_URL} = require('./config');
 const { GoalPost } = require('./posts-list/postslist-models');
+const { User } = require('./users/users-models');
 
 const router = require('./posts-list/postslist-router');
 
@@ -19,6 +20,10 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(bodyParser.json());
 app.use('/posts', router);
+
+app.use('*', (req, res) => {
+    res.status(404).json({message: 'Not Found'});
+})
 
 // GET endpoint
 app.get('/', (req, res) => {
