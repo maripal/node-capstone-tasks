@@ -134,4 +134,35 @@ describe('Posts API', function() {
             });
         });
     });
+
+    // test for PUT endpoint
+    describe('PUT endpoint', function() {
+
+        it('should update a post', function() {
+            const updatePost = {
+                text : 'Go to Iceland.',
+                notes : 'See the northern lights while I\'m there'
+            };
+
+            return GoalPost
+                .findOne()
+                .then(function(post) {
+                    updatePost.id = post.id;
+
+                    return chai.request(app)
+                    .put(`/posts/${post.id}`)
+                    .send(updatePost)
+                })
+                .then(function(res) {
+                    expect(res).to.have.status(204);
+                    return GoalPost.findById(updatePost.id);
+                })
+                .then(function(post) {
+                    expect(post.text).to.equal(updatePost.text);
+                    expect(post.notes).to.equal(updatePost.notes);
+                });
+        });
+    });
+
+    
 });
