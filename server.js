@@ -26,8 +26,6 @@ app.get('/', (req, res) => {
 });
 
 
-
-
 /*app.post('/posts', (req, res) => {
     const requiredFields = 'text';
     if(!(requiredFields in req.body)) {
