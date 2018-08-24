@@ -105,4 +105,33 @@ describe('Posts API', function() {
     });
 
     //test for POST endpoint
+    describe('POST endpoint', function() {
+
+        it('should add a new post', function() {
+            const newPost = generatePostsData();
+
+            return chai.request(app)
+            .post('/posts')
+            .send(newPost)
+            .then(function(res) {
+                expect(res).to.have.status(201);
+                expect(res).to.be.json;
+                expect(res.body).to.be.a('object');
+                expect(res.body).to.include.keys('id', 'text', 'notes', 'images', 'created', 'completed');
+                expect(res.body.id).to.not.be.null;
+                expect(res.body.text).to.equal(newPost.text);
+                expect(res.body.notes).to.equal(newPost.notes);
+                expect(res.body.images).to.equal(newPost.images);
+                //expect(res.body.completed).to.equal(newPost.completed);
+
+                return GoalPost.findById(res.body.id);
+            })
+            .then(function(post) {
+                expect(post.text).to.equal(newPost.text);
+                expect(post.notes).to.equal(newPost.notes);
+                expect(post.images).to.equal(newPost.images);
+                //expect(post.completed).to.equal(newPost.completed);
+            });
+        });
+    });
 });
