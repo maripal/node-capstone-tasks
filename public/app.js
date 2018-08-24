@@ -1,5 +1,5 @@
 // create mock data for api calls, since I haven't built the actual API
-const MOCK_POST_DATA = {
+/*const MOCK_POST_DATA = {
     "posts" : [
         {
             "id" : "0111111",
@@ -37,15 +37,24 @@ const MOCK_POST_DATA = {
             "checkedOff_date" : false
         }
     ]
-};
+};*/
 
 // function to get tasks created. This function will change,
 // once the real API is created. Instead of setTimeout, make 
 // an AJAX call to actual API.
 function getPosts(callbackFn) {
-    setTimeout(function() {
-        callbackFn(MOCK_POST_DATA)
-    }, 100);
+    $.ajax({
+        type: 'GET',
+        url: '/posts',
+        data: post,
+        dataType: 'json',
+        success: function(data) {
+            displayPosts();
+        },
+        error: function(request, error) {
+            console.log("Request: " + JSON.stringify(request));
+        }   
+    });
 }
 
 //function to display posts. This will not change.
