@@ -1,4 +1,4 @@
-"use strict";
+/*"use strict";
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -17,4 +17,4 @@ describe ('Home Page', function() {
             expect(res).to.have.status(200);
         });
     });
-});
+});*/
