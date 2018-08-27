@@ -62,7 +62,7 @@ userRouter.post('/', jsonParser, (req, res) => {
         'min' in acceptedSizedFields[field] && req.body[field].trim().length < acceptedSizedFields[field].min 
     );
     const tooLargeField = Object.keys(acceptedSizedFields).find(field =>
-        'max' in acceptedSizedFields[field] && req.body[field].trim().length < acceptedSizedFields[field].max
+        'max' in acceptedSizedFields[field] && req.body[field].trim().length > acceptedSizedFields[field].max
     );
 
     if (tooSmallField || tooLargeField) {
@@ -79,10 +79,11 @@ userRouter.post('/', jsonParser, (req, res) => {
 
     firstName = firstName.trim();
     lastName = lastName.trim();
-
+    
     return User.find({username})
         .count()
         .then(count => {
+            
             if (count > 0) {
                 return Promise.reject({
                     code: 422,
@@ -95,11 +96,12 @@ userRouter.post('/', jsonParser, (req, res) => {
             return User.hashPassword(password);
         })
         .then(hash => {
+            
             return User.create({
-                username,
+                username: username,
                 password: hash,
-                firstName,
-                lastName
+                firstName: firstName,
+                lastName: lastName
             });
         })
         .then(user => {
@@ -109,10 +111,11 @@ userRouter.post('/', jsonParser, (req, res) => {
             if(err.reason === 'ValidationError') {
                 return res.status(err.code).json(err);
             }
+            console.log(err);
             res.status(500).json({code: 500, message: 'Internal Server Error'});
         });
 });
 
 
 
-module.exports = {userRouter};
+module.exports = userRouter;
