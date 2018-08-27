@@ -14,6 +14,7 @@ const { GoalPost } = require('./posts-list/postslist-models');
 const { User } = require('./users/users-models');
 
 const router = require('./posts-list/postslist-router');
+const userRouter = require('./users/users-router');
 
 app.use(morgan('common'));
 app.use(express.static('public'));
