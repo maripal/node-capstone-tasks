@@ -18,6 +18,14 @@ userSchema.methods.serialize = function() {
         lastName: this.lastName || '',
         username: this.userName || ''
     };
+};
+
+userSchema.methods.validatePassword = function(password) {
+    return bcrypt.compare(password, this.password);
+}
+
+userSchema.statics.hashPassword = function(password) {
+    return bcrypt.hash(password, 10);
 }
 
 const User = mongoose.model('User', userSchema);
