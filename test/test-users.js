@@ -2,7 +2,6 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const faker = require('faker');
 
 const {User} = require('../users/users-models');
 const {app, runServer, closeServer} = require('../server');
@@ -13,28 +12,28 @@ const expect = chai.expect;
 chai.use(chaiHttp);
 
 describe('User API', function() {
-    const firstName = faker.name.firstName();
-    const lastName = faker.name.lastName();
-    const username = faker.internet.userName();
-    const password = faker.lorem.words();
-    const firstNameB = faker.name.firstName();
-    const lastNameB = faker.name.lastName();
-    const usernameB = fake.internet.userName();
-    const passwordB = fake.lorem.words();
+    const firstName = 'Example';
+    const lastName = 'User';
+    const username = 'exampleUser';
+    const password = 'examplePass';
+    const firstNameB = 'ExampleB';
+    const lastNameB = 'UserB';
+    const usernameB = 'exampleUserB';
+    const passwordB = 'examplePassB';
+
 
     before(function() {
         return runServer(TEST_DATABASE_URL);
     });
 
-    beforeEach(function() {
-    })
-
-    afterEach(function() {
-        return User.remove({});
-    });
+    beforeEach(function() {});
 
     after(function() {
         return closeServer();
+    });
+
+    afterEach(function() {
+        return User.remove({});
     });
 
     describe('users api', function() {
@@ -50,7 +49,7 @@ describe('User API', function() {
                 .then(() =>
                     expect.fail(null, null, 'Request shouldn\'t succeed')
                 )
-                .catch( err => {
+                .catch(err => {
                     if (err instanceof chai.AssertionError) {
                         throw err;
                     }
