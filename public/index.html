@@ -6,22 +6,86 @@
 
         <title>Node App</title>
         <link rel="stylesheet" type="text/css" href="main.css">
+        <link rel="stylesheet" type="text/css" href="grid.css">
     </head>
 
     <body>
 
-        <!-- Post List Section-->
-        <main>
-            <div class="postsListSection">
-                <h1>Bucket/Goal List</h1>
-                <ul class="postList">
-                    
-                </ul>
+        <!-- Landing Page -->
+        <main role="main" aria-live="assertive" hidden>
+            <div class="row">
+                <div class="col-12">
+                    <div class="landing-page-info">
+                        <h1 class="page-description">Where a bucket list and vision board come together.</h1>
+                        <button id="landing-login-button">Log In</button>
+                        <button id="landing-signup-button">Sign Up</button>
+                    </div>
+                </div>
             </div>
         </main>
 
+        <!-- Login Form-->
+        <section role="region" hidden>
+            <div class="row">
+                <div class="col-12">
+                    <div class="login-section">
+                        <form action="#" class="login-form">
+                            <legend id="login-title">Login</legend>
+                            <label for="username">
+                                <input type="text" id="username" name="username" placeholder="Username" required>
+                            </label>
+                            <label for="user-password">
+                                <input type="password" id="user-password" name="user-password" placeholder="Password" required>
+                            </label>
+                            <button type="submit" id="login-submit-button">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SignUp Form -->
+        <section role="region" hidden>
+            <div class="row">
+                <div class="col-12">
+                    <div class="signup-section">
+                        <form action="#" class="signup-form">
+                            <legend id="signup-title">Sign Up</legend>
+                            <label for="user-firstname">
+                                <input type="text" id="user-firstname" name="user-firstname" placeholder="First Name" required>
+                            </label>
+                            <label for="user-lastname">
+                                <input type="text" id="user-lastname" name="user-lastname" placeholder="Last Name" required>
+                            </label>
+                            <label for="user-username">
+                                <input type="text" id="user-username" name="user-username" placeholder="Username" required>
+                            </label>
+                            <label for="user-pass">
+                                <input type="password" id="user-pass" name="user-pass" placeholder="Password" required>
+                            </label>
+                            <button type="submit" id="signup-button">Sign Up</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Post List Section-->
+        <section role="region">
+            <div class="row">
+                <div class="col-4">
+                    <div class="postsListSection">
+                        <h1>Bucket/Goal List</h1>
+                        <ul class="postList">
+                                    
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Buttons for different task actions -->
-        <div class="buttonsSection">
+        <div class="buttonsSection" hidden>
             <button class="create" type="button">Create Post</button>
             <button class="delete" type="button">Delete Post</button>
             <button class="checkOff" type="button">Check Off Post</button>
