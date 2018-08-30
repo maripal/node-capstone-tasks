@@ -227,7 +227,7 @@ describe('User API', function() {
                 return User.create({
                     firstName,
                     lastName,
-                    username,
+                    username: 'exampleUser',
                     password
                 })
                 .then(() => {
@@ -236,7 +236,7 @@ describe('User API', function() {
                     .send({
                         firstName,
                         lastName,
-                        username,
+                        username: 'exampleUser',
                         password
                     })
                 })
@@ -244,7 +244,7 @@ describe('User API', function() {
                     expect(res).to.have.status(422);
                     expect(res.body.reason).to.equal('ValidationError');
                     expect(res.body.message).to.equal('Username already exists');
-                    expect(res.body.location).to.equal('username');
+                    expect(res.body.location).to.equal('exampleUser');
                 });
             });
 
