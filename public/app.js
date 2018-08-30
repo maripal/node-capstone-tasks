@@ -46,10 +46,9 @@ function getPosts(callbackFn) {
     $.ajax({
         type: 'GET',
         url: '/posts',
-        data: post,
         dataType: 'json',
         success: function(data) {
-            displayPosts();
+            displayPosts(data);
         },
         error: function(request, error) {
             console.log("Request: " + JSON.stringify(request));
@@ -59,11 +58,11 @@ function getPosts(callbackFn) {
 
 //function to display posts. This will not change.
 function displayPosts(data) {
-    for (index in data.posts) {
+    for (let i = 0; i < data.length; i++) {
         $('.postList').append(
-            '<li>' + data.posts[index].text + '</li>'
+            '<li>' + data[i].text + '</li>'
         );
-    };  
+    }  
 }
 
 function createAPost() {
