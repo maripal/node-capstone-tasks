@@ -2,11 +2,74 @@ body {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    background-color: #e1e9f0;
 }
 
-.postsListSection {
+/* landing page styles */
+.landing-page-info {
+    width: 100%;
+    margin-top: 40%;
+}
+
+.page-description {
+    margin-bottom: 50px;
+    text-align: left;
+    font-family: sans-serif;
+}
+
+#landing-login-button, #landing-signup-button {
+    display: block;
+    width: 100%;
+    background-color: whitesmoke;
+    border: 1px solid whitesmoke;
+    border-radius: 50px;
+    height: 35px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+/* login and signup form styles */
+.login-section, .signup-section {
+    width: 100%;
     margin: 0 auto;
-    width: 500px;
+    margin-top: 35%;
+}
+
+#login-title, #signup-title {
+    text-align: center;
+    font-size: 60px;
+    font-family: sans-serif;
+    margin-bottom: 20px;
+}
+
+#username, #user-password, #user-firstname, 
+#user-lastname, #user-username, #user-pass {
+    display: block;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid black;
+    width: 100%;
+    padding: 5px 10px;
+    margin-bottom: 20px;
+    height: 35px;
+    font-size: 14px;
+}
+
+#login-submit-button, #signup-button {
+    width: 100%;
+    border: 1px solid white;
+    border-radius: 50px;
+    background-color: white;
+    height: 40px;
+    font-size: 18px;
+    color: black;
+    margin-top: 25px;
+}
+
+/* post section styles */
+.postsListSection {
+    width: 100%;
     border: 1px solid black;
     padding-left: 20px;
     margin-top: 100px;
