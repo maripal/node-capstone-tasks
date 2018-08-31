@@ -60,7 +60,7 @@ function getPosts(callbackFn) {
 function displayPosts(data) {
     for (let i = 0; i < data.length; i++) {
         $('.postList').append(
-            '<li>' + data[i].text + '</li>'
+            '<li><div class="card-post">' + data[i].text + '</div></li>'
         );
     }  
 }
