@@ -25,13 +25,17 @@
     padding-right: 1.04166666%;
   }
   
-  .col-4{
+  .col-4, .col-8, .col-12{
     width: 100%;
   }
   
   @media only screen and (min-width: 640px) {
     .col-4 {
       width: 33.3%;
+    }
+
+    .col-8 {
+      width: 66.7%;
     }
     
     .col-12 {
