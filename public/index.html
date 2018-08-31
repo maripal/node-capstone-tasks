@@ -10,8 +10,23 @@
     </head>
 
     <body>
-
         <!-- Landing Page -->
+        <!-- Nav Bar-->
+        <nav role="navigation">
+            <div class="row">
+                <div class="col-12">
+                    <div class="nav-menu">
+                        <h1>App Name</h1>
+                    </div>
+
+                    <div class="logout-button">
+                        <a href="#" id="logout">Log Out</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        
         <main role="main" aria-live="assertive" hidden>
             <div class="row">
                 <div class="col-12">
@@ -70,26 +85,36 @@
             </div>
         </section>
 
+        <!-- Buttons for different task actions -->
+        <div class="row">
+            <div class="col-12">
+                <div class="buttonsSection">
+                        <button class="create" type="button">Create Post</button>
+                        <button class="delete" type="button">Delete Post</button>
+                        <button class="checkOff" type="button">Check Off Post</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Post List Section-->
         <section role="region">
             <div class="row">
                 <div class="col-4">
-                    <div class="postsListSection">
+                    <div class="postsListSection" >
                         <h1>Bucket/Goal List</h1>
                         <ul class="postList">
-                                    
+
                         </ul>
+                    </div>
+                </div>
+
+                <div class="col-8" hidden>
+                    <div id="single-post-section">
+                        
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- Buttons for different task actions -->
-        <div class="buttonsSection" hidden>
-            <button class="create" type="button">Create Post</button>
-            <button class="delete" type="button">Delete Post</button>
-            <button class="checkOff" type="button">Check Off Post</button>
-        </div>
 
         <!-- Pop up form to create a new task -->
         <div class="createNewPostPopUp">
