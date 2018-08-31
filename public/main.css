@@ -5,10 +5,39 @@ body {
     background-color: #e1e9f0;
 }
 
+/* nav bar styles */
+nav {
+    position: fixed;
+    top: 0;
+    background-color: white;
+    width: 100%;
+    font-family: sans-serif;
+}
+
+.nav-menu {
+    display: inline-block;
+}
+
+.logout-button {
+    display: inline-block;
+    position: relative;
+    left: 111px;
+    width: 100px;
+    background-color: slategray;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#logout {
+    text-decoration: none;
+    color: black;
+}
+
 /* landing page styles */
 .landing-page-info {
     width: 100%;
-    margin-top: 40%;
+    margin-top: 50%;
 }
 
 .page-description {
@@ -67,18 +96,40 @@ body {
     margin-top: 25px;
 }
 
-/* post section styles */
+/* postlist section styles */
 .postsListSection {
     width: 100%;
-    border: 1px solid black;
-    padding-left: 20px;
     margin-top: 100px;
 }
 
+.postList {
+    list-style: none;
+    padding: 0;
+}
+
+.card-post {
+    width: 100%;
+    background-color: #ced2d6;
+    border: 1px solid white;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 30px 10px;
+}
+
+/* buttons styles */
 .buttonsSection {
     margin: 0 auto;
     width: 300px;
-    margin-top: 20px;
+    margin-top: 35%;
+    text-align: center;
+}
+
+.create, .delete, .checkOff {
+    background-color: salmon;
+    border: 1px solid salmon;
+    border-radius: 3px;
+    padding: 10px;
+    font-size: 12px;
 }
 
 .createNewPostPopUp {
