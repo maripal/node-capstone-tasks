@@ -80,7 +80,7 @@ function submitNewPostButton() {
         let newPost = targetInput.val();
         targetInput.val("");
         console.log(newPost);
-        $('.postList').append(` <li> ${newPost} </li>`);
+        $('.postList').append(` <li><div class="card-post"> ${newPost} </div></li>`);
         // to hide new post input after submitting a new post
         $('.createNewPostPopUp').toggle();
     });
