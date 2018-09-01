@@ -86,15 +86,18 @@
         </section>
 
         <!-- Buttons for different task actions -->
+        <section role="region">
         <div class="row">
             <div class="col-12">
                 <div class="buttonsSection">
                         <button class="create" type="button">Create Post</button>
                         <button class="delete" type="button">Delete Post</button>
+                        <button class="update" type="button">Edit Post</button>
                         <button class="checkOff" type="button">Check Off Post</button>
                 </div>
             </div>
         </div>
+        </section>
 
         <!-- Post List Section-->
         <section role="region">
@@ -117,14 +120,21 @@
         </section>
 
         <!-- Pop up form to create a new task -->
-        <div class="createNewPostPopUp">
-            <form action="#" class="js-create-new-post">
-                <label for="js-new-post-input">
-                    <input type="text" id="js-new-post-input" name="js-new-post-input" placeholder="Enter new goal" required>
-                    <button class="submitPost" type="submit">Submit</button>
-                </label>
-            </form>
-        </div>
+        <section role="region">
+            <div class="row">
+                <div class="col-12">
+                    <div class="createNewPostPopUp">
+                        <form action="#" class="js-create-new-post">
+                            <label for="js-new-post-input">
+                                <input type="text" id="js-new-post-input" name="js-new-post-input" placeholder="Enter new goal" required>
+                                <button class="submitPost" type="submit">Submit</button>
+                            </label>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
         <script
         src="https://code.jquery.com/jquery-3.3.1.min.js"
