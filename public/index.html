@@ -119,17 +119,47 @@
             </div>
         </section>
 
-        <!-- Pop up form to create a new task -->
-        <section role="region">
+        <!-- Modal pop up form to create a new task -->
+        <section role="region" hidden>
             <div class="row">
                 <div class="col-12">
+                    <div class="postModalBox">
                     <div class="createNewPostPopUp">
                         <form action="#" class="js-create-new-post">
                             <label for="js-new-post-input">
                                 <input type="text" id="js-new-post-input" name="js-new-post-input" placeholder="Enter new goal" required>
-                                <button class="submitPost" type="submit">Submit</button>
                             </label>
+                            <label for="js-short-term-option">
+                                <input type="radio" id="js-short-term-option" name="js-short-term-option" checked>
+                                Short-term
+                            </label>
+
+                            <label for="js-long-term-option">
+                                <input type="radio" id="js-long-term-option" name="js-long-term-option">
+                                Long-term
+                                </label>
+                            <button class="submitPost" type="submit">Submit</button>
                         </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Notes modal pop up for a certain post -->
+        <section role="region">
+            <div class="row">
+                <div class="col-12">
+                    <div class="notesModalBox">
+                        <div id="addNotesPopUp">
+                            <form action="#" class="js-add-note">
+                                <legend>Add a note...</legend>
+                                <label for="js-note-input">
+                                    <input type="text" id="js-note-input" name="js-note-input" required>
+                                </label>
+                                <button type="submit" id="submitNote">Submit</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
