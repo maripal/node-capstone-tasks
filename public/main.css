@@ -129,23 +129,64 @@ nav {
     border: 1px solid salmon;
     border-radius: 3px;
     padding: 3px;
-    font-size: 12px;
+    font-size: 11px;
+}
+
+/* Create post modal pop up styles */
+.postModalBox, .notesModalBox {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
 .createNewPostPopUp {
     display: none;
-    width: 300px;
+    width: 85%;
     padding: 50px;
     margin-top: 50px;
     border: 1px solid black;
     border-radius: 5px;
     margin-left: auto;
     margin-right: auto;
+    background-color: lightsteelblue;
+    text-align: center;
 }
 
-/*#js-new-post-input {
-    width: 300px;
-}*/
+#js-new-post-input {
+    width: 100%;
+    padding: 5px 10px;
+    border: 1px solid black;
+    border-radius: 2px;
+    font-size: 14px;
+}
+
+#js-short-term-option, #js-long-term-option {
+    margin-top: 25px;
+}
+
+.submitPost {
+    margin-top: 25px;
+    background-color: white;
+    width: 100px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
+/* Notes styles */
+
 
 .deleting {
     cursor: pointer;
