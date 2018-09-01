@@ -68,6 +68,7 @@ function displayPosts(data) {
 function createAPost() {
     $('.create').on('click', function() {
         // open the pop up window to input a new task
+        $('.postModalBox').toggle();
         $('.createNewPostPopUp').toggle();
     });
 }
@@ -82,6 +83,7 @@ function submitNewPostButton() {
         console.log(newPost);
         $('.postList').append(` <li><div class="card-post"> ${newPost} </div></li>`);
         // to hide new post input after submitting a new post
+        $('.postModalBox').toggle();
         $('.createNewPostPopUp').toggle();
     });
 }
