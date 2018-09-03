@@ -65,6 +65,21 @@ function displayPosts(data) {
     }  
 }
 
+function postCreated(callbackFn) {
+    $.ajax({
+        type: 'POST',
+        url: '/posts',
+        //data: 'data.text',
+        dataType: 'json',
+        success: function(data) {
+            submitNewPostButton(data);
+        },
+        error: function(request, error) {
+            console.log("Request: " + JSON.stringify(request));
+        }
+    });
+} 
+
 function createAPost() {
     $('.create').on('click', function() {
         // open the pop up window to input a new task
@@ -74,18 +89,37 @@ function createAPost() {
 }
 
 // function to submit a new post to list
-function submitNewPostButton() {
+function submitNewPostButton(data) {
     $('.js-create-new-post').submit(function(event) {
         event.preventDefault();
         let targetInput = $(event.currentTarget).find('#js-new-post-input');
         let newPost = targetInput.val();
         targetInput.val("");
-        console.log(newPost);
         $('.postList').append(` <li><div class="card-post"> ${newPost} </div></li>`);
         // to hide new post input after submitting a new post
         $('.postModalBox').toggle();
         $('.createNewPostPopUp').toggle();
     });
+}
+
+// when you click 'post-addNote' open note modal
+function addANote() {
+    $('.postAddNote').on('click', function() {
+        $('.addNoteSection').prop('hidden', false);
+        $('.notesModalBox').toggle();
+    });
+}
+
+function submitNoteButton() {
+    $('.js-add-note').submit(function(event) {
+        event.preventDefault();
+        let targetInput = $(event.currentTarget).find('#js-note-input');
+        let newNote = targetInput.val();
+        targetInput.val("");
+        $('#noteList').append(`<li>${newNote}</li>`);
+        $('.addNoteSection').prop('hidden', true);
+        $('.notesModalBox').toggle();
+    })
 }
 
 // function to make delete button work
@@ -113,6 +147,7 @@ function checkOffButton() {
 
 function getAndDisplayPosts() {
     getPosts(displayPosts);
+    postCreated(submitNewPostButton);
 }
 
 $(getAndDisplayPosts);
@@ -120,5 +155,7 @@ $(createAPost);
 $(submitNewPostButton);
 $(deleteButton);
 $(checkOffButton);
+$(addANote);
+$(submitNoteButton);
 
 
