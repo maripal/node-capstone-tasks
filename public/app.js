@@ -1,43 +1,3 @@
-// create mock data for api calls, since I haven't built the actual API
-/*const MOCK_POST_DATA = {
-    "posts" : [
-        {
-            "id" : "0111111",
-            "text" : "Go skydiving",
-            "userId": "103555",
-            "date" : "08-11-18",
-            "checkedOff_date" : true
-        },
-        {
-            "id" : "0222222",
-            "text" : "Travel around Europe",
-            "userId": "103555",
-            "date" : "08-11-18",
-            "checkedOff_date" : true
-        },
-        {
-            "id" : "0333333",
-            "text" : "Get a job as a software developer",
-            "userId": "103555",
-            "date" : "08-11-18",
-            "checkedOff_date" : true
-        },
-        {
-            "id" : "0444444",
-            "text" : "Visit the Grand Canyon",
-            "userId": "103555",
-            "date" : "08-11-18",
-            "checkedOff_date" : false
-        },
-        {
-            "id" : "0555555",
-            "text" : "Read one book",
-            "userId": "103555",
-            "date" : "08-11-18",
-            "checkedOff_date" : false
-        }
-    ]
-};*/
 
 // function to get tasks created. This function will change,
 // once the real API is created. Instead of setTimeout, make 
@@ -62,23 +22,80 @@ function displayPosts(data) {
         $('.postList').append(
             '<li><div class="card-post">' + data[i].text + '</div></li>'
         );
-    }  
+    }
 }
 
-function postCreated(callbackFn) {
+//function to open login form
+function openLoginForm() {
+    $('#landing-login-button').on('click', function() {
+        $('.loginFormSection').prop('hidden', false);
+        $('.landingPageSection').toggle();
+    })
+}
+
+//function to login
+function submitLogin() {
+    $('.login-form').submit(function(event) {
+        event.preventDefault();
+        let userTarget = $(event.currentTarget).find('#username');
+        let user = userTarget.val();
+        let passTarget = $(event.currentTarget).find('#user-password');
+        let password = passTarget.val();
+        retrieveUser(user, password);
+        $('.login-section').html(`
+        <div class="successfulLoginGreeting> Hello ${user}. You are now logged in.</div>`);
+        $('.loginFormSection').toggle();
+        // create post button to appear after loggin in
+    $('.createButtonSection').prop('hidden', false); 
+    });
+}
+
+//function to retrieve user profile
+function retrieveUser(user, password) {
+    const userLogin = {username: user, password: password};
+
     $.ajax({
         type: 'POST',
-        url: '/posts',
-        //data: 'data.text',
-        dataType: 'json',
-        success: function(data) {
-            submitNewPostButton(data);
+        url: '/login',
+        data: userLogin,
+        contentType: 'application/json',
+        success: function() {
+            let currentUser = parseJwt(res.authToken).sub;
+            displayPosts(currentUser);
         },
         error: function(request, error) {
             console.log("Request: " + JSON.stringify(request));
         }
     });
-} 
+}
+
+// function to open sign up form
+function openSignUpForm() {
+    $('#landing-signup-button').on('click', function() {
+        $('.signupFormSection').prop('hidden', false);
+        $('.landingPageSection').toggle();
+    })
+}
+
+//function to sign up
+function submitSignUp() {
+    $('.signup-form').submit(function(event) {
+        event.preventDefault();
+        let firstnameTarget = $(event.currentTarget).find('#user-firstname');
+        let firstname = firstnameTarget.val();
+        let lastnameTarget = $(event.currentTarget).find('#user-lastname');
+        let lastname = lastnameTarget.val();
+        let usernameTarget = $(event.currentTarget).find('#user-username');
+        let username = usernameTarget.val();
+        let passwordTarget = $(event.currentTarget).find('#user-pass');
+        let password = passwordTarget.val();
+        
+        $('.signup-section').html(`<div class="signupGreeting">Welcome!</div>`);
+        setTimeout(function() {
+            $('.signup-section').dialog('close');
+        }, 5000);
+    });
+}
 
 function createAPost() {
     $('.create').on('click', function() {
@@ -88,17 +105,77 @@ function createAPost() {
     });
 }
 
-// function to submit a new post to list
+// function to submit a new post to list w/ ajax call
 function submitNewPostButton(data) {
     $('.js-create-new-post').submit(function(event) {
         event.preventDefault();
         let targetInput = $(event.currentTarget).find('#js-new-post-input');
         let newPost = targetInput.val();
         targetInput.val("");
-        $('.postList').append(` <li><div class="card-post"> ${newPost} </div></li>`);
+
+        let postCreated = {text: newPost};
+        $.ajax({
+            type: 'POST',
+            url: '/posts',
+            data: postCreated,
+            dataType: 'json',
+            success: function() {
+                $('.postList').append(`<li><div class="card-post"> ${newPost} </div></li>`);
+            },
+            error: function(request, error) {
+                console.log("Request: " + JSON.stringify(request));
+            }
+        });
+        
         // to hide new post input after submitting a new post
         $('.postModalBox').toggle();
         $('.createNewPostPopUp').toggle();
+    });
+}
+
+//open single post that was clicked on
+function openSinglePost() {
+    $('.postList').on('click', 'li', function() {
+        let clickedPost = $(this);
+            $('#openPostSection').prop('hidden', false);
+            $('#single-post-section').append($(clickedPost));
+            $('.postList').toggle(); 
+    });
+}
+
+//function to open post to edit it
+function editPost() {
+    $('.update').on('click', function() {
+        $('.editPostModalBox').toggle();
+        $('.editPopUp').toggle();
+    });
+}
+
+//function to submit update post w/ ajax call
+function updatedPostSubmit() {
+    $('.editPostForm').submit(function(event) {
+        event.preventDefault();
+        let targetInput = $(event.currentTarget).find('#js-edit-post');
+        let editedPost = targetInput.val();
+        targetInput.val("");
+
+        let updatedPost = {text: editedPost, id: editedPost.id};
+        console.log(editedPost);
+        $.ajax({
+            type: 'PUT',
+            url: `/posts/${editedPost}`,
+            data: JSON.stringify(updatedPost),
+            headers: {'ContentType': 'application/json'},
+            success: function() {
+                $('.cardPost').append($(editedPost));
+            },
+            error: function( request, error) {
+                console.log("Request: " + JSON.stringify(request));
+            }
+        });
+
+        $('.editPostModalBox').toggle();
+        $('.editPopUp').toggle();
     });
 }
 
@@ -129,9 +206,20 @@ function deleteButton() {
         $('li').toggleClass('deleting');
 
         // this event handler removes list item clicked on
-        $('ul').on('click', 'li', function() {
-            $(this).remove();
-            $('ul').unbind();
+
+        $.ajax({
+            type: 'DELETE',
+            url: '/posts/:id',
+            dataType: 'json',
+            success: function() {
+                $('ul').on('click', 'li', function() {
+                    $(this).remove();
+                    $('ul').unbind();
+                });
+            },
+            error: function(request, error) {
+                console.log("Request: " + JSON.stringify(request));
+            }
         });
     });
 }
@@ -140,14 +228,13 @@ function deleteButton() {
 function checkOffButton() {
     $('.checkOff').on('click', function() {
         $('li').on('click', function() {
-            $(this).toggleClass('checkOffSign');
+            $(this).remove();
         });
     });
 }
 
 function getAndDisplayPosts() {
     getPosts(displayPosts);
-    postCreated(submitNewPostButton);
 }
 
 $(getAndDisplayPosts);
@@ -157,5 +244,9 @@ $(deleteButton);
 $(checkOffButton);
 $(addANote);
 $(submitNoteButton);
-
-
+$(openSinglePost);
+$(editPost);
+$(updatedPostSubmit);
+$(openLoginForm);
+$(submitLogin);
+$(openSignUpForm);
