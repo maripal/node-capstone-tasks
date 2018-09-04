@@ -113,7 +113,8 @@ nav {
     border: 1px solid white;
     border-radius: 5px;
     margin-bottom: 10px;
-    padding: 30px 10px;
+    padding: 50px 10px;
+    font-size: 16px;
 }
 
 /* buttons styles */
@@ -124,7 +125,7 @@ nav {
     text-align: center;
 }
 
-.create, .delete, .update, .checkOff {
+.create {
     background-color: salmon;
     border: 1px solid salmon;
     border-radius: 3px;
@@ -133,7 +134,7 @@ nav {
 }
 
 /* Create post modal pop up styles */
-.postModalBox, .notesModalBox {
+.postModalBox, .notesModalBox, .editPostModalBox {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -147,7 +148,7 @@ nav {
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-.createNewPostPopUp {
+.createNewPostPopUp, .editPopUp {
     display: none;
     width: 85%;
     padding: 50px;
@@ -187,9 +188,16 @@ nav {
 
 /* Single post section */
 #single-post-section {
-    margin-top: 50%;
-    
+    margin-top: 25%;
 }
+
+.openPostSection {
+    background-color: white;
+    width: 100%;
+    height: 100px;
+}
+
+
 
 /* Notes styles */
 #addNotesPopUp {
@@ -215,3 +223,8 @@ nav {
 .checkOffSign {
     text-decoration: line-through;
 }
+
+.postOptions {
+    width: 100%;
+}
+
