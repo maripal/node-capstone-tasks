@@ -26,8 +26,19 @@
             </div>
         </nav>
 
+        <!-- Button to create a post -->
+        <section role="region" class="createButtonSection" hidden>
+            <div class="row">
+                <div class="col-12">
+                    <div class="buttonsSection">
+                        <button class="create" type="button">Create Post</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         
-        <main role="main" aria-live="assertive" hidden>
+        <main role="main" aria-live="assertive" class="landingPageSection">
             <div class="row">
                 <div class="col-12">
                     <div class="landing-page-info">
@@ -85,20 +96,6 @@
             </div>
         </section>
 
-        <!-- Buttons for different task actions -->
-        <section role="region" >
-        <div class="row">
-            <div class="col-12">
-                <div class="buttonsSection">
-                        <button class="create" type="button">Create Post</button>
-                        <button class="delete" type="button">Delete Post</button>
-                        <button class="update" type="button">Edit Post</button>
-                        <button class="checkOff" type="button">Check Off Post</button>
-                </div>
-            </div>
-        </div>
-        </section>
-
         <!-- Modal pop up form to create a new task -->
         <section role="region" class="createPostSection" >
             <div class="row">
@@ -127,25 +124,41 @@
         </section>
 
         <!-- Post List Section-->
-        <section role="region" class="postSection">
+        <section role="region" class="postSection" >
             <div class="row">
                 <div class="col-4">
                     <div class="postsListSection" >
-                        <h1>Bucket/Goal List</h1>
                         <ul class="postList">
 
                         </ul>
                     </div>
                 </div>
 
-                <div class="col-8" >
+                <div class="col-8" id="openPostSection" >
                     <div id="single-post-section">
-                        
-                        <div id="noteListSection">
-                            <ul id="noteList">
+                        <div class="postOptions">
+                            <button class="delete" type="button">Delete Post</button>
+                            <button class="update" type="button">Edit Post</button>
+                            <button class="checkOff" type="button">Check Off Post</button>
 
-                            </ul>
+                            <div id="noteListSection">
+                                <ul id="noteList">
+    
+                                </ul>
+                            </div>
                         </div>
+
+                        <div class="editPostModalBox" >
+                            <div class="editPopUp">
+                                <form action="#" class="editPostForm">
+                                    <label for="js-edit-post">
+                                        <input type="text" id="js-edit-post" name="js-edit-post" required>
+                                    </label>
+                                    <button type="submit" class="submitEditedPost">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                        
                     </div>
 
                     <button class="postAddNote" type="button">Add Note</button>
