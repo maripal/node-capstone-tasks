@@ -10,7 +10,8 @@ const goalPostSchema = mongoose.Schema({
     notes : {type: String},
     images : {type: String},
     created : {type: Date, default: Date.now},
-    completed: Boolean
+    completed: Boolean,
+    timeLength: {type: String}
 }, 
     // to hide the '__v' property
     {versionKey: false});
@@ -23,7 +24,8 @@ goalPostSchema.methods.serialize = function() {
         notes: this.notes,
         images: this.images,
         created: this.created,
-        completed: this.completed
+        completed: this.completed,
+        timeLength: this.timeLength
     };
 };
 
