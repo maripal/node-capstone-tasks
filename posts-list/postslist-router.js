@@ -60,7 +60,7 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
     const requiredField = 'text';
     if(!(requiredField in req.body)) {
-        const message = `Missing require \`${requiredField}\` in request body`;
+        const message = `Missing required \`${requiredField}\` in request body`;
         console.error(message);
         return res.status(400).send(message);
     }
