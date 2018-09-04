@@ -23,6 +23,9 @@ const { localStrategy, jwtStrategy } = require('./auth/strategies');
 app.use(morgan('common'));
 app.use(express.static('public'));
 app.use(express.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(bodyParser.json());
 app.use('/posts', router);
 app.use('/users', userRouter);
