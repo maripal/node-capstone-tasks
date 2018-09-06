@@ -3,12 +3,15 @@
 // once the real API is created. Instead of setTimeout, make 
 // an AJAX call to actual API.
 function getPosts(callbackFn) {
+    let token = localStorage.getItem('authToken');
     $.ajax({
         type: 'GET',
         url: '/posts',
         dataType: 'json',
+        headers: {'Authorization' : `Bearer ${token}`},
         success: function(data) {
             displayPosts(data);
+            $('.postSection').prop('hidden', false);
         },
         error: function(request, error) {
             console.log("Request: " + JSON.stringify(request));
@@ -20,9 +23,17 @@ function getPosts(callbackFn) {
 function displayPosts(data) {
     for (let i = 0; i < data.length; i++) {
         $('.postList').append(
-            '<li><div class="card-post">' + data[i].text + '</div></li>'
+            `<li><div class="card-post" data-card-post-id="${data[i]._id}"> ${data[i].text}</div></li>`
         );
     }
+}
+
+//function for dropdown menu
+function dropDown() {
+    $('.dropdownButton').on('click', function() {
+        $('div.nav-options').prop('hidden', false);
+        $('div.nav-options a').toggle();
+    })
 }
 
 //function to open login form
@@ -41,31 +52,28 @@ function submitLogin() {
         let user = userTarget.val();
         let passTarget = $(event.currentTarget).find('#user-password');
         let password = passTarget.val();
-        retrieveUser(user, password);
-        $('.login-section').html(`
-        <div class="successfulLoginGreeting> Hello ${user}. You are now logged in.</div>`);
-        $('.loginFormSection').toggle();
+        
+        const userLogin = {username: user, password: password};
+
+        $.ajax({
+            method: 'POST',
+            url: '/auth/login',
+            data: JSON.stringify(userLogin),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function(data) {
+                let jwt = data.authToken;
+                sessionStorage.setItem('Bearer', jwt);
+                $('.loginFormSection').prop('hidden', true);
+                getPosts(sessionStorage.getItem('username'));
+                $('.menuOptions').prop('hidden', false);
+            },
+            error: function(request, error) {
+                console.log("Request: " + JSON.stringify(request));
+            }
+        });
         // create post button to appear after loggin in
     $('.createButtonSection').prop('hidden', false); 
-    });
-}
-
-//function to retrieve user profile
-function retrieveUser(user, password) {
-    const userLogin = {username: user, password: password};
-
-    $.ajax({
-        type: 'POST',
-        url: '/login',
-        data: userLogin,
-        contentType: 'application/json',
-        success: function() {
-            let currentUser = parseJwt(res.authToken).sub;
-            displayPosts(currentUser);
-        },
-        error: function(request, error) {
-            console.log("Request: " + JSON.stringify(request));
-        }
     });
 }
 
@@ -89,11 +97,24 @@ function submitSignUp() {
         let username = usernameTarget.val();
         let passwordTarget = $(event.currentTarget).find('#user-pass');
         let password = passwordTarget.val();
-        
-        $('.signup-section').html(`<div class="signupGreeting">Welcome!</div>`);
-        setTimeout(function() {
-            $('.signup-section').dialog('close');
-        }, 5000);
+
+        let signUpInfo = {username: username, password: password, firstName: firstname, lastName: lastname};
+
+        $.ajax({
+            method: 'POST', 
+            url: '/users',
+            dataType: 'json',
+            data: signUpInfo,
+            success: function() {
+                //localStorage.setItem('authToken', response.token);
+                //window.initialToken = response.token;
+                
+                $('.signup-section').html('<div class="signupGreeting">Welcome!</div>');
+            },
+            error: function(request, error) {
+                console.log("Request: " + JSON.stringify(request));
+            }
+        })
     });
 }
 
@@ -137,17 +158,20 @@ function submitNewPostButton(data) {
 function openSinglePost() {
     $('.postList').on('click', 'li', function() {
         let clickedPost = $(this);
+        console.log(clickedPost);
             $('#openPostSection').prop('hidden', false);
             $('#single-post-section').append($(clickedPost));
-            $('.postList').toggle(); 
+            $('.postList').toggle();
     });
 }
 
 //function to open post to edit it
 function editPost() {
-    $('.update').on('click', function() {
-        $('.editPostModalBox').toggle();
-        $('.editPopUp').toggle();
+    $('.postList').on('click', 'li', function() {
+        $('.update').on('click', function() {
+            $('.editPostModalBox').toggle();
+            $('.editPopUp').toggle();
+        });
     });
 }
 
@@ -156,18 +180,20 @@ function updatedPostSubmit() {
     $('.editPostForm').submit(function(event) {
         event.preventDefault();
         let targetInput = $(event.currentTarget).find('#js-edit-post');
+        console.log(event.currentTarget);
         let editedPost = targetInput.val();
         targetInput.val("");
-
-        let updatedPost = {text: editedPost, id: editedPost.id};
+        let postId = $('#openPostSection').find('.card-post');
+        postId = $(postId).data("card-post-id");
+        let updatedPost = {text: editedPost, id: postId};
         console.log(editedPost);
+        console.log(postId);
         $.ajax({
             type: 'PUT',
-            url: `/posts/${editedPost}`,
-            data: JSON.stringify(updatedPost),
-            headers: {'ContentType': 'application/json'},
-            success: function() {
-                $('.cardPost').append($(editedPost));
+            url: `/posts/${postId}`,
+            data: updatedPost,
+            success: function(data) {
+                $('#openPostSection').find('.card-post').html(editedPost);
             },
             error: function( request, error) {
                 console.log("Request: " + JSON.stringify(request));
@@ -233,11 +259,23 @@ function checkOffButton() {
     });
 }
 
-function getAndDisplayPosts() {
-    getPosts(displayPosts);
+function logOutButton() {
+    $('#logout').on('click', function() {
+        event.preventDefault();
+        console.log('logout button clicked');
+        sessionStorage.setItem('Bearer', "");
+        sessionStorage.setItem('user', "");
+        sessionStorage.clear();
+        location.reload();
+    })
 }
 
-$(getAndDisplayPosts);
+//function getAndDisplayPosts() {
+//    getPosts(displayPosts);
+//}
+
+//$(getAndDisplayPosts);
+$(dropDown);
 $(createAPost);
 $(submitNewPostButton);
 $(deleteButton);
@@ -250,3 +288,5 @@ $(updatedPostSubmit);
 $(openLoginForm);
 $(submitLogin);
 $(openSignUpForm);
+$(submitSignUp);
+$(logOutButton);
