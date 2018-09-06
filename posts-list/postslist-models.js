@@ -5,10 +5,12 @@ mongoose.Promise = global.Promise;
 
 
 const goalPostSchema = mongoose.Schema({
-    //user : {type : mongoose.Schema.Types.ObjectId, ref:'User'},
+    user : {type : mongoose.Schema.Types.ObjectId, ref:'User'},
     text : {type: String, required: true},
     notes : {type: String},
-    images : {type: String},
+    images : { path: 
+                {type: String}
+            },
     created : {type: Date, default: Date.now},
     completed: Boolean,
     timeLength: {type: String}
