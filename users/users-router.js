@@ -116,6 +116,4 @@ userRouter.post('/', jsonParser, (req, res) => {
         });
 });
 
-
-
 module.exports = userRouter;
