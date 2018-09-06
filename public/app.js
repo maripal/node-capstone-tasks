@@ -3,12 +3,12 @@
 // once the real API is created. Instead of setTimeout, make 
 // an AJAX call to actual API.
 function getPosts(callbackFn) {
-    let token = localStorage.getItem('authToken');
+    //let token = localStorage.getItem('authToken');
     $.ajax({
         type: 'GET',
         url: '/posts',
         dataType: 'json',
-        headers: {'Authorization' : `Bearer ${token}`},
+        //headers: {Authorization : `Bearer ${token}`},
         success: function(data) {
             displayPosts(data);
             $('.postSection').prop('hidden', false);
@@ -121,9 +121,17 @@ function submitSignUp() {
 function createAPost() {
     $('.create').on('click', function() {
         // open the pop up window to input a new task
+        $('.createPostSection').prop('hidden', false);
         $('.postModalBox').toggle();
         $('.createNewPostPopUp').toggle();
     });
+
+    // close window if you don't want to create a post
+    $('.closeWindow').on('click', function() {
+        $('.createPostSection').prop('hidden', true);
+        $('.postModalBox').toggle();
+        $('.createNewPostPopUp').toggle();
+    })
 }
 
 // function to submit a new post to list w/ ajax call
@@ -228,20 +236,17 @@ function submitNoteButton() {
 // function to make delete button work
 function deleteButton() {
     $('.delete').on('click', function() {
-        $(this).toggleClass('deleting');
-        $('li').toggleClass('deleting');
-
-        // this event handler removes list item clicked on
+        //$(this).toggleClass('deleting');
+        //$('li').toggleClass('deleting');
+        let deletedPostId = $('#openPostSection').find('.card-post');
+        deletedPostId = $(deletedPostId).data("card-post-id");
 
         $.ajax({
             type: 'DELETE',
-            url: '/posts/:id',
+            url: `/posts/${deletedPostId}`,
             dataType: 'json',
             success: function() {
-                $('ul').on('click', 'li', function() {
-                    $(this).remove();
-                    $('ul').unbind();
-                });
+                $('#openPostSection').find('.card-post').remove();
             },
             error: function(request, error) {
                 console.log("Request: " + JSON.stringify(request));
