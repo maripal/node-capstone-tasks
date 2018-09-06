@@ -50,7 +50,7 @@ i {
 
 div.nav-options a {
     /*display: none;*/
-    color: black;
+    color: white;
     text-decoration: none;
     width: 100%;
     text-align: center;
@@ -139,6 +139,7 @@ div.nav-options a {
 .postsListSection {
     width: 100%;
     margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 .postList {
