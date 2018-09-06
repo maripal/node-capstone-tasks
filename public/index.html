@@ -18,8 +18,16 @@
                     <div class="nav-menu">
                         <h1>App Name</h1>
                     </div>
+                </div>
+            </div>
 
-                    <div class="logout-button">
+            <div class="row menuOptions" hidden>
+                <div class="col-12">
+                        <button class="dropdownButton">Menu<i class="down"></i></button>
+                    <div class="nav-options" hidden>
+                        <a href="#" id="home">Home</a>
+                        <a href="#" id="short-term">Short Term</a>
+                        <a href="#" id="short-term">Long Term</a>
                         <a href="#" id="logout">Log Out</a>
                     </div>
                 </div>
@@ -97,7 +105,7 @@
         </section>
 
         <!-- Modal pop up form to create a new task -->
-        <section role="region" class="createPostSection" >
+        <section role="region" class="createPostSection" hidden>
             <div class="row">
                 <div class="col-12">
                     <div class="postModalBox">
@@ -124,7 +132,7 @@
         </section>
 
         <!-- Post List Section-->
-        <section role="region" class="postSection" >
+        <section role="region" class="postSection" hidden>
             <div class="row">
                 <div class="col-4">
                     <div class="postsListSection" >
@@ -134,18 +142,13 @@
                     </div>
                 </div>
 
-                <div class="col-8" id="openPostSection" >
+                <div class="col-8" id="openPostSection" hidden>
                     <div id="single-post-section">
                         <div class="postOptions">
                             <button class="delete" type="button">Delete Post</button>
                             <button class="update" type="button">Edit Post</button>
-                            <button class="checkOff" type="button">Check Off Post</button>
-
-                            <div id="noteListSection">
-                                <ul id="noteList">
-    
-                                </ul>
-                            </div>
+                            <button class="checkOff" type="button">Completed</button>
+                            <button class="postAddNote" type="button">Add Note</button>
                         </div>
 
                         <div class="editPostModalBox" >
@@ -158,10 +161,14 @@
                                 </form>
                             </div>
                         </div>
+
+                        <div id="noteListSection">
+                                <ul id="noteList">
+    
+                                </ul>
+                            </div>
                         
                     </div>
-
-                    <button class="postAddNote" type="button">Add Note</button>
 
                 </div>
             </div>
