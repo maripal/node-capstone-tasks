@@ -2,38 +2,65 @@ body {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: #e1e9f0;
+    background-color: white;
 }
 
 /* nav bar styles */
 nav {
     position: fixed;
     top: 0;
-    background-color: white;
     width: 100%;
     font-family: sans-serif;
+    background-color: #5680e9;;
+    color: white;
 }
 
 .nav-menu {
     display: inline-block;
 }
 
-.logout-button {
+.dropdownButton {
+    width: 100%;
+    font-size: 16px;
+    color: white;
+}
+
+i {
+    border: solid white;
+    border-width: 0 3px 3px 0;
     display: inline-block;
-    position: relative;
-    left: 111px;
-    width: 100px;
-    background-color: slategray;
+    padding: 3px;
+    margin-left: 5px;
+    margin-bottom: 2px;
+  }
+
+.down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
+.menuOptions {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-top: 1px solid white;
     text-align: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    background-color: black;
+    color: white;
 }
 
-#logout {
-    text-decoration: none;
+div.nav-options a {
+    /*display: none;*/
     color: black;
+    text-decoration: none;
+    width: 100%;
+    text-align: center;
+    display: block;
+    padding: 7px;
 }
 
+#home {
+    margin-top: 8px;
+}
 /* landing page styles */
 .landing-page-info {
     width: 100%;
@@ -46,15 +73,27 @@ nav {
     font-family: sans-serif;
 }
 
-#landing-login-button, #landing-signup-button {
+#landing-login-button{
     display: block;
     width: 100%;
-    background-color: whitesmoke;
-    border: 1px solid whitesmoke;
+    background-color: white;
+    border: 1px solid #8860d0;
     border-radius: 50px;
-    height: 35px;
+    height: 51px;
     margin-bottom: 20px;
     font-size: 14px;
+}
+
+#landing-signup-button {
+    display: block;
+    width: 100%;
+    background-image: linear-gradient(to right, #8860d0, #5ab9ea);
+    border: 1px solid white;
+    border-radius: 50px;
+    height: 51px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: white;
 }
 
 /* login and signup form styles */
@@ -99,7 +138,7 @@ nav {
 /* postlist section styles */
 .postsListSection {
     width: 100%;
-    margin-top: 100px;
+    margin-top: 50px;
 }
 
 .postList {
@@ -109,28 +148,35 @@ nav {
 
 .card-post {
     width: 100%;
-    background-color: #ced2d6;
-    border: 1px solid white;
+    background-color: white;
+    border: 2px solid #89ceeb;
     border-radius: 5px;
     margin-bottom: 10px;
     padding: 50px 10px;
-    font-size: 16px;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: black;
+    text-align: center;
 }
 
 /* buttons styles */
 .buttonsSection {
     margin: 0 auto;
-    width: 300px;
+    width: 100%;
     margin-top: 40%;
     text-align: center;
 }
 
 .create {
-    background-color: salmon;
-    border: 1px solid salmon;
-    border-radius: 3px;
-    padding: 3px;
-    font-size: 11px;
+    background-image: linear-gradient(to right, #8860d0, #5ab9ea);
+    border: 1px solid white;
+    border-radius: 50px;
+    padding: 10px;
+    width: 100%;
+    height: 45px;
+    font-size: 14px;
+    color: white;
+    margin-top: 50px;
 }
 
 /* Create post modal pop up styles */
@@ -189,6 +235,7 @@ nav {
 /* Single post section */
 #single-post-section {
     margin-top: 25%;
+    list-style: none;
 }
 
 .openPostSection {
@@ -210,6 +257,10 @@ nav {
     text-align: center;
 }
 
+.noteList {
+    list-style: none;
+}
+
 #noteLegend {
     font-family: sans-serif;
     font-size: 20px;
@@ -226,5 +277,16 @@ nav {
 
 .postOptions {
     width: 100%;
+    margin-bottom: 10%;
+}
+
+.postOptions button {
+    width: 24%;
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: #5ab9ea;
+    padding: 8px;
+    height: 41px;
+    color: white;
 }
 
