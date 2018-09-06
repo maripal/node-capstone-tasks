@@ -7,6 +7,8 @@
         <title>Node App</title>
         <link rel="stylesheet" type="text/css" href="main.css">
         <link rel="stylesheet" type="text/css" href="grid.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
     </head>
 
     <body>
@@ -110,8 +112,8 @@
                 <div class="col-12">
                     <div class="postModalBox">
                     <div class="createNewPostPopUp">
-                        <form action="#" class="js-create-new-post">
-                            <label for="js-new-post-input">
+                            <i class="fa fa-times closeWindow" id="close-create-post" aria-hidden="true"></i>
+                        <form action="#" class="js-create-new-post">                            <label for="js-new-post-input">
                                 <input type="text" id="js-new-post-input" name="js-new-post-input" placeholder="Enter new goal" required>
                             </label>
                             <label for="js-short-term-option">
@@ -153,6 +155,7 @@
 
                         <div class="editPostModalBox" >
                             <div class="editPopUp">
+                                    <i class="fa fa-times closeWindow" aria-hidden="true"></i>
                                 <form action="#" class="editPostForm">
                                     <label for="js-edit-post">
                                         <input type="text" id="js-edit-post" name="js-edit-post" required>
