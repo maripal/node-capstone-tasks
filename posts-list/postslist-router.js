@@ -72,13 +72,7 @@ router.put('/:id', (req, res) => {
         return res.status(400).send(message);
       }
     GoalPost
-        .update({
-            id: req.params.id,
-            text: req.body.text,
-            notes: req.body.notes,
-            images: req.body.images,
-            completed: false
-        })
+        .findByIdAndUpdate(req.params.id, {$set: {text: req.body.text}})
         .then(post => {
             return res.status(204).end();
         })
