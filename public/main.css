@@ -26,7 +26,6 @@ nav {
 }
 
 i {
-    border: solid white;
     border-width: 0 3px 3px 0;
     display: inline-block;
     padding: 3px;
@@ -197,6 +196,7 @@ div.nav-options a {
 
 .createNewPostPopUp, .editPopUp {
     display: none;
+    position: relative;
     width: 85%;
     padding: 50px;
     margin-top: 50px;
@@ -204,11 +204,17 @@ div.nav-options a {
     border-radius: 5px;
     margin-left: auto;
     margin-right: auto;
-    background-color: lightsteelblue;
+    background-color: #5680e9;
     text-align: center;
 }
 
-#js-new-post-input, #js-note-input {
+.closeWindow, .closeEditWindow, .closeNoteWindow {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+#js-new-post-input, #js-note-input, #js-edit-post {
     width: 100%;
     padding: 5px 10px;
     border: 1px solid black;
@@ -254,8 +260,9 @@ div.nav-options a {
     margin-right: auto;
     padding: 50px;
     border: 1px solid black;
-    background-color: #c3b6b6;
+    background-color: #5680e9;
     text-align: center;
+    position: relative;
 }
 
 .noteList {
@@ -291,3 +298,38 @@ div.nav-options a {
     color: white;
 }
 
+.imageUploadContainer {
+    width: 100%;
+    border: 1px solid black;
+    padding: 20px;  
+    text-align: center;  
+    margin-bottom: 20px;
+}
+
+#uploadImageTitle {
+    font-size: 18px;
+    font-family: sans-serif;
+    margin-bottom: 20px;
+}
+
+#myImage {
+    display: block;
+    width: 100%;
+    height: 40px;
+    border: 1px solid #8666d1;
+    border-radius: 5px;
+    padding-top: 8px;
+    font-size: 14px;
+}
+
+.submitImageButton {
+    width: 35%;
+    border: 1px solid #8666d1;
+    background-color: #8666d1;
+    color: white;
+    border-radius: 5px;
+    height: 41px;
+    padding: 8px;
+    margin: 20px auto;
+    font-size: 14px;
+}
