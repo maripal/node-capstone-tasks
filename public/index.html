@@ -112,8 +112,9 @@
                 <div class="col-12">
                     <div class="postModalBox">
                     <div class="createNewPostPopUp">
-                            <i class="fa fa-times closeWindow" id="close-create-post" aria-hidden="true"></i>
-                        <form action="#" class="js-create-new-post">                            <label for="js-new-post-input">
+                            <i class="fa fa-times-circle closeWindow" id="close-create-post" aria-hidden="true"></i>
+                        <form action="#" class="js-create-new-post">                            
+                            <label for="js-new-post-input">
                                 <input type="text" id="js-new-post-input" name="js-new-post-input" placeholder="Enter new goal" required>
                             </label>
                             <label for="js-short-term-option">
@@ -155,7 +156,7 @@
 
                         <div class="editPostModalBox" >
                             <div class="editPopUp">
-                                    <i class="fa fa-times closeWindow" aria-hidden="true"></i>
+                                    <i class="fa fa-times-circle closeEditWindow" aria-hidden="true"></i>
                                 <form action="#" class="editPostForm">
                                     <label for="js-edit-post">
                                         <input type="text" id="js-edit-post" name="js-edit-post" required>
@@ -183,6 +184,7 @@
                 <div class="col-12">
                     <div class="notesModalBox">
                         <div id="addNotesPopUp">
+                            <i class="fa fa-times-circle closeNoteWindow" id="close-create-post" aria-hidden="true"></i>
                             <form action="#" class="js-add-note">
                                 <legend id="noteLegend">Add a note...</legend>
                                 <label for="js-note-input">
@@ -191,6 +193,23 @@
                                 <button type="submit" class="submitNote">Submit</button>
                             </form>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Image Upload Form-->
+        <section role="region" class="imageUploadSection" hidden>
+            <div class="row">
+                <div class="col-12">
+                    <div class="imageUploadContainer">
+                        <form action="/images" method="POST" class="js-image-upload-form" enctype="multipart/form-data">
+                            <label for="myImage">
+                                <div id="uploadImageTitle">Upload Image</div>
+                                <input type="file" id="myImage" name="myImage">
+                            </label>
+                            <button type="submit" class="submitImageButton">Upload<i class="fas fa-upload"></i></button>
+                        </form>
                     </div>
                 </div>
             </div>
