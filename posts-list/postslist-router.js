@@ -9,7 +9,7 @@ const { GoalPost } = require('./postslist-models');
 
 //set storage engine
 const storage = multer.diskStorage({
-    destination: '',
+    destination: './public/images/',
     filename: function(req, file, callback) {
         callback(null, `${file.fieldname}-${Date.now()}-${path.extname(file.originalname)}`);
     }
