@@ -3,12 +3,13 @@
 // once the real API is created. Instead of setTimeout, make 
 // an AJAX call to actual API.
 function getPosts(callbackFn) {
-    //let token = localStorage.getItem('authToken');
+    let token = localStorage.getItem('username');
+    console.log(token);
     $.ajax({
         type: 'GET',
         url: '/posts',
         dataType: 'json',
-        //headers: {Authorization : `Bearer ${token}`},
+        headers: {Authorization : `Bearer ${token}`},
         success: function(data) {
             displayPosts(data);
             $('.postSection').prop('hidden', false);
@@ -26,6 +27,9 @@ function displayPosts(data) {
             `<li><div class="card-post" data-card-post-id="${data[i]._id}"> ${data[i].text}</div></li>`
         );
     }
+// create post button to appear after login
+    $('.createButtonSection').prop('hidden', false); 
+
 }
 
 //function for dropdown menu
@@ -73,7 +77,6 @@ function submitLogin() {
             }
         });
         // create post button to appear after loggin in
-    $('.createButtonSection').prop('hidden', false); 
     });
 }
 
@@ -181,6 +184,11 @@ function editPost() {
             $('.editPopUp').toggle();
         });
     });
+
+    $('.closeEditWindow').on('click', function() {
+        $('.editPostModalBox').toggle();
+        $('.editPopUp').toggle();
+    })
 }
 
 //function to submit update post w/ ajax call
@@ -219,6 +227,11 @@ function addANote() {
         $('.addNoteSection').prop('hidden', false);
         $('.notesModalBox').toggle();
     });
+
+    $('.closeNoteWindow').on('click', function() {
+        $('.addNoteSection').prop('hidden', true);
+        $('.notesModalBox').toggle();
+    })
 }
 
 function submitNoteButton() {
