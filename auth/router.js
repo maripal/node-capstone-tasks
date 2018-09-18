@@ -23,7 +23,7 @@ authRouter.use(bodyParser.json());
 //the user provides username and password for login
 authRouter.post('/login', localAuth, (req, res) => {
     const authToken = createAuthToken(req.user.serialize());
-    res.json({authToken});
+    res.json({user: req.user, authToken: authToken});
 });
 
 const jwtAuth = passport.authenticate('jwt', {session: false});
