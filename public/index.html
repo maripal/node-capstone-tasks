@@ -148,8 +148,8 @@
                 <div class="col-8" id="openPostSection" hidden>
                     <div id="single-post-section">
                         <div class="postOptions">
-                            <button class="delete" type="button">Delete Post</button>
-                            <button class="update" type="button">Edit Post</button>
+                            <button class="delete" type="button">Delete</button>
+                            <button class="update" type="button">Edit</button>
                             <button class="checkOff" type="button">Completed</button>
                             <button class="postAddNote" type="button">Add Note</button>
                         </div>
@@ -159,21 +159,25 @@
                                     <i class="fa fa-times-circle closeEditWindow" aria-hidden="true"></i>
                                 <form action="#" class="editPostForm">
                                     <label for="js-edit-post">
-                                        <input type="text" id="js-edit-post" name="js-edit-post" required>
+                                        <input type="text" id="js-edit-post" name="js-edit-post" placeholder="Edit goal..." required>
                                     </label>
                                     <button type="submit" class="submitEditedPost">Submit</button>
                                 </form>
                             </div>
                         </div>
-
-                        <div id="noteListSection">
-                                <ul id="noteList">
-    
-                                </ul>
-                            </div>
                         
                     </div>
 
+                    <div id="noteListSection">
+                        <span id="notesSpan">Notes:</span>
+                        <ul id="noteList">
+
+                        </ul>
+                    </div>
+
+                    <div class="imagesCollectionSection">
+                        
+                    </div>
                 </div>
             </div>
         </section>

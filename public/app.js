@@ -3,13 +3,13 @@
 // once the real API is created. Instead of setTimeout, make 
 // an AJAX call to actual API.
 function getPosts(callbackFn) {
-    let token = localStorage.getItem('username');
-    console.log(token);
+    //let token = localStorage.getItem('authToken');
+    //console.log(token);
     $.ajax({
         type: 'GET',
         url: '/posts',
         dataType: 'json',
-        headers: {Authorization : `Bearer ${token}`},
+        //headers: {Authorization : `Bearer ${token}`},
         success: function(data) {
             displayPosts(data);
             $('.postSection').prop('hidden', false);
@@ -173,6 +173,7 @@ function openSinglePost() {
             $('#openPostSection').prop('hidden', false);
             $('#single-post-section').append($(clickedPost));
             $('.postList').toggle();
+            $('.imageUploadSection').prop('hidden', false);
     });
 }
 
@@ -210,6 +211,7 @@ function updatedPostSubmit() {
             data: updatedPost,
             success: function(data) {
                 $('#openPostSection').find('.card-post').html(editedPost);
+                submitNoteButton(data);
             },
             error: function( request, error) {
                 console.log("Request: " + JSON.stringify(request));
@@ -240,11 +242,17 @@ function submitNoteButton() {
         let targetInput = $(event.currentTarget).find('#js-note-input');
         let newNote = targetInput.val();
         targetInput.val("");
-        $('#noteList').append(`<li>${newNote}</li>`);
+        $('#noteList').append(`<li id="noteListItem">${newNote}</li>`);
         $('.addNoteSection').prop('hidden', true);
         $('.notesModalBox').toggle();
     })
 }
+
+//function to add image to a single post
+//$('.js-image-upload-form').submit(function(event) {
+//    event.preventDefault();
+    
+//})
 
 // function to make delete button work
 function deleteButton() {
