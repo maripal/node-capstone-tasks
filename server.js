@@ -63,26 +63,6 @@ app.get('/', (req, res) => {
 });
 
 
-/*app.post('/posts', (req, res) => {
-    const requiredFields = 'text';
-    if(!(requiredFields in req.body)) {
-        const message = `Missing \`${requiredFields}\` in request body`;
-        console.error(message);
-        return res.status(400).send(message);
-    }
-
-    GoalPost
-    .create({
-        text: req.body.text
-    })
-    .then(post => res.status(201).json(post.serialize()))
-    .catch(err => {
-        console.error(err);
-        res.status(500).json({error: 'Oops. Something went wrong.'});
-    });
-})*/
-
-
 let server;
 
 // function that connects to database, and starts server
