@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const multer = require('multer');
+const passport = require('passport');
 
 const { GoalPost } = require('./postslist-models');
 
@@ -20,19 +21,15 @@ const upload = multer({storage});
 
 // GET endpoint
 router.get('/', (req, res) => {
-    GoalPost.find()
+    GoalPost.find()//({user: req.user.id})
     .then(posts => {
-        res.json(posts);
+        res.status(200).json(posts);
     })
     .catch(err => {
         console.error(err);
         res.status(500).json({error: 'Oops. Something went wrong.'});
     });
 })
-
-/*router.get('/', (req, res) => {
-    res.status(200).json({message: "Connected!"});
-})*/
 
 // POST endpoint
 router.post('/', (req, res) => {
@@ -41,16 +38,6 @@ router.post('/', (req, res) => {
         const message = `Missing required \`${requiredField}\` in request body`;
         console.error(message);
         return res.status(400).send(message);
-    }
-    // this is for if user adds notes to post
-    let notes = [];
-    if (notes.length === 0) {
-        notes.push(req.body.notes);
-    }
-    // this is for if user adds images to post
-    let images = [];
-    if (images.length === 0) {
-        images.push(req.body.images);
     }
     GoalPost
         .create({
@@ -69,7 +56,8 @@ router.post('/', (req, res) => {
 })
 
 // PUT endpoint
-router.put('/:id', (req, res) => {
+router.put('/:id', upload.single('myImage'), (req, res) => {
+    console.log(req.file);
     const requiredField = 'text';
     if(!(requiredField in req.body)) {
         const message = `Missing required \`${requiredField}\` in request body`;
@@ -83,6 +71,19 @@ router.put('/:id', (req, res) => {
         console.error(message);
         return res.status(400).send(message);
       }
+          // this is for if user adds notes to post
+    let notes = [];
+    if (notes.length === 0) {
+        notes.push(req.body.notes);
+    }
+    // this is for if user adds images to post
+    let images = [];
+    //if (images.length === 0) {
+    //    images.push(req.body.images);
+    //}
+    if (req.file) {
+        images = {path : req.file.path};
+    }
     GoalPost
         .findByIdAndUpdate(req.params.id, {$set: {text: req.body.text}})
         .then(post => {
