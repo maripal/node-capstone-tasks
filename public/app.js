@@ -5,6 +5,7 @@
 function getPosts(callbackFn) {
     //let token = localStorage.getItem('authToken');
     //console.log(token);
+
     $.ajax({
         type: 'GET',
         url: '/posts',
@@ -23,9 +24,13 @@ function getPosts(callbackFn) {
 //function to display posts. This will not change.
 function displayPosts(data) {
     for (let i = 0; i < data.length; i++) {
+        if (data.length === 0) {
+            $('.postSection').prop('hidden', false);
+        } else {
         $('.postList').append(
             `<li><div class="card-post" data-card-post-id="${data[i]._id}"> ${data[i].text}</div></li>`
         );
+        }
     }
 // create post button to appear after login
     $('.createButtonSection').prop('hidden', false); 
@@ -121,6 +126,13 @@ function submitSignUp() {
     });
 }
 
+// redirect back to home page
+function homepageRedirect() {
+    $('#home').on('click', function() {
+        window.location = "/";
+    })
+}
+
 function createAPost() {
     $('.create').on('click', function() {
         // open the pop up window to input a new task
@@ -173,7 +185,7 @@ function openSinglePost() {
             $('#openPostSection').prop('hidden', false);
             $('#single-post-section').append($(clickedPost));
             $('.postList').toggle();
-            $('.imageUploadSection').prop('hidden', false);
+            //$('.imageUploadSection').prop('hidden', false);
     });
 }
 
@@ -236,7 +248,7 @@ function addANote() {
     })
 }
 
-function submitNoteButton() {
+function submitNoteButton(data) {
     $('.js-add-note').submit(function(event) {
         event.preventDefault();
         let targetInput = $(event.currentTarget).find('#js-note-input');
@@ -316,3 +328,4 @@ $(submitLogin);
 $(openSignUpForm);
 $(submitSignUp);
 $(logOutButton);
+$(homepageRedirect);
