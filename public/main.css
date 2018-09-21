@@ -25,16 +25,15 @@ nav {
     color: white;
     background-color: transparent;
     border: transparent;
-    padding-left: 16px;
 }
 
-i {
+/*i {
     border-width: 0 3px 3px 0;
     display: inline-block;
     padding: 3px;
     margin-left: 5px;
     margin-bottom: 2px;
-  }
+  }*/
 
 .down {
     transform: rotate(45deg);
@@ -156,6 +155,7 @@ div.nav-options a {
     margin-bottom: 20px;
     padding: 50px 10px;
     font-size: 18px;
+    font-family: sans-serif;
     letter-spacing: 2px;
     color: black;
     text-align: center;
@@ -165,7 +165,7 @@ div.nav-options a {
 .buttonsSection {
     margin: 0 auto;
     width: 100%;
-    margin-top: 40%;
+    margin-top: 150px;
     text-align: center;
 }
 
@@ -246,6 +246,9 @@ div.nav-options a {
     height: 34px;
     border: 1px solid white;
     font-size: 14px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Single post section */
@@ -279,8 +282,7 @@ div.nav-options a {
     border-radius: 5px;
 }
 
-#notesSpan {
-    background-color: black; 
+.notesHeader {
     color: white;
     font-size: 24px;
     display: block;
@@ -290,6 +292,15 @@ div.nav-options a {
     background-image: linear-gradient(to right, #8860d0, #5ab9ea);
     padding: 5px 20px;
     letter-spacing: 3px;
+}
+
+.postAddNote {
+    background-color: transparent;
+    border: transparent;
+    float: right;
+    font-size: 22px;
+    color: white;
+    padding: 0;
 }
 
 .noteList {
@@ -325,17 +336,18 @@ div.nav-options a {
 
 .postOptions {
     width: 100%;
-    margin-bottom: 10%;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 .postOptions button {
-    width: 24%;
     border: 1px solid white;
-    border-radius: 5px;
+    border-radius: 50%;
     background-color: #5ab9ea;
-    padding: 8px;
-    height: 41px;
     color: white;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
 }
 
 .imagesCollectionSection {
@@ -378,4 +390,102 @@ div.nav-options a {
     padding: 8px;
     margin: 20px auto;
     font-size: 14px;
+}
+
+/*
+.card-post:hover {
+    box-shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.5);
+}
+*/
+
+/* Media queries for bigger screen sizes */
+@media only screen and (min-width: 640px) {
+    /*.col-12 {
+        width: 100%;
+    }
+
+    .col-8 {
+        width: 100%;
+    }
+
+    .col-4 {
+        width: 100%;
+    }*/
+
+    #landing-login-button, #landing-signup-button {
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .landing-page-info {
+        margin-top: 250px;
+    }
+
+    .page-description {
+        text-align: center;
+    }
+
+    #username, #user-password, #user-firstname, 
+    #user-lastname, #user-username, #user-pass {
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .login-form, .signup-form{
+        text-align: center;
+    }
+
+    #login-submit-button, #signup-button {
+        width: 70%;
+    }
+
+    /* post list page view styles */
+    .buttonsSection {
+        margin-top: 150px;
+    }
+
+    .create {
+        font-size: 16px;
+    }
+
+    #single-post-section {
+        margin-top: 100px;
+    }
+
+    .card-post {
+        font-size: 24px;
+    }
+
+    .submitPost, .submitNote {
+        font-size: 16px;
+    }
+}
+
+@media only screen and (min-width: 834px) {
+    .col-12 {
+        width: 100%;
+    }
+
+    .col-8 {
+        width: 66.7%;
+    }
+
+    .col-4 {
+        width: 33.3%;
+    }
+
+    .page-description {
+        font-size: 45px;
+        text-align: center;
+    }
+
+    .login-section, .signup-section {
+        margin-top: 250px;
+    }
+
+    .card-post {
+        font-size: 28px;
+    }
 }

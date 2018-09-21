@@ -148,10 +148,9 @@
                 <div class="col-8" id="openPostSection" hidden>
                     <div id="single-post-section">
                         <div class="postOptions">
-                            <button class="delete" type="button">Delete</button>
-                            <button class="update" type="button">Edit</button>
-                            <button class="checkOff" type="button">Completed</button>
-                            <button class="postAddNote" type="button">Add Note</button>
+                            <button class="delete" type="button"><i class="fas fa-trash"></i></button>
+                            <button class="update" type="button"><i class="fas fa-pen-square"></i></i></button>
+                            <button class="checkOff" type="button"><i class="fas fa-check"></i></button>
                         </div>
 
                         <div class="editPostModalBox" >
@@ -169,13 +168,16 @@
                     </div>
 
                     <div id="noteListSection">
-                        <span id="notesSpan">Notes:</span>
+                        <div class="notesHeader">
+                            <span id="notesSpan">Notes:</span>
+                            <button class="postAddNote" type="button"><i class="fas fa-plus"></i></button>
+                        </div>
                         <ul id="noteList">
 
                         </ul>
                     </div>
 
-                    <div class="imagesCollectionSection">
+                    <div class="imagesCollectionSection" hidden>
                         
                     </div>
                 </div>
