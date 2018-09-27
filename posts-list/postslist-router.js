@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 const multer = require('multer');
 const passport = require('passport');
+const mongoose = require('mongoose');
 
 const { GoalPost } = require('./postslist-models');
 
@@ -21,14 +22,18 @@ const upload = multer({storage});
 
 // GET endpoint
 router.get('/', (req, res) => {
-    GoalPost.find()//({user: req.user.id})
-    .then(posts => {
-        res.status(200).json(posts);
-    })
-    .catch(err => {
-        console.error(err);
-        res.status(500).json({error: 'Oops. Something went wrong.'});
-    });
+        GoalPost.find({'user': req.params._id})
+        .populate('user')
+        .then(posts => {
+            //res.status(200).json(posts);
+            res.send(posts);
+            console.log('this is the id: ' + req.params.id);
+    
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({error: 'Oops. Something went wrong.'});
+        })
 })
 
 // POST endpoint
@@ -41,6 +46,7 @@ router.post('/', (req, res) => {
     }
     GoalPost
         .create({
+            user: req.body.user,
             text: req.body.text,
             notes: req.body.notes,
             images: req.body.images,
@@ -70,7 +76,16 @@ router.put('/:id', upload.single('myImage'), (req, res) => {
         }) and request body id ``(${req.body.id}) must match`;
         console.error(message);
         return res.status(400).send(message);
-      }
+    }
+
+    const updated = {};
+    const updateableFields = ['text', 'images', 'notes', 'completed'];
+
+    updateableFields.forEach(field => {
+        if (field in req.body) {
+            updated[field] = req.body[field];
+        }
+    });
           // this is for if user adds notes to post
     let notes = [];
     if (notes.length === 0) {
@@ -85,16 +100,23 @@ router.put('/:id', upload.single('myImage'), (req, res) => {
         images = {path : req.file.path};
     }
     GoalPost
-        .findByIdAndUpdate(req.params.id, {$set: {text: req.body.text}})
-        .then(post => {
-            return res.status(204).end();
-        })
+        .findByIdAndUpdate(req.params.id, {$set: updated}, {new: true})//{$set: {text: req.body.text}})
+        //.then(post => {
+        //    return res.status(204).end();
+        //})
+        .then(updatedPost => res.status(200).json({
+            id: updatedPost.id,
+            text: updatedPost.text,
+            images: updatedPost.images,
+            notes: updatedPost.notes,
+            completed: updatedPost.completed
+        }))
         .catch(err => {
             console.error(err);
             res.status(500).json({error: 'Oops. Something went wrong.'});
         });
 })
-
+;
 // DELETE endpoint
 router.delete('/:id', (req, res) => {
     GoalPost

@@ -2,10 +2,10 @@
 
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-
+const {User} = require('../users/users-models');
 
 const goalPostSchema = mongoose.Schema({
-    user : {type: mongoose.Schema.Types.ObjectId, ref:'User'},
+    user : {type: mongoose.Schema.Types.ObjectId, ref: 'users'},
     text : {type: String, required: true},
     notes : [{type: String}],
     images : [{ path: 
@@ -20,7 +20,7 @@ const goalPostSchema = mongoose.Schema({
 
 goalPostSchema.methods.serialize = function() {
     return {
-        id: this._id,
+        //id: this._id,
         user: this.user,
         text: this.text,
         notes: this.notes,
