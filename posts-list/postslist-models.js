@@ -2,7 +2,6 @@
 
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-const {User} = require('../users/users-models');
 
 const goalPostSchema = mongoose.Schema({
     user : {type: mongoose.Schema.Types.ObjectId, ref: 'users'},

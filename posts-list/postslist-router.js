@@ -17,18 +17,17 @@ const storage = multer.diskStorage({
     }
 })
 
+const jwtAuth = passport.authenticate('jwt', {session: false});
 //initialize image upload
 const upload = multer({storage});
 
 // GET endpoint
-router.get('/', (req, res) => {
-        GoalPost.find({'user': req.params._id})
-        .populate('user')
+router.get('/', jwtAuth, (req, res) => {
+        GoalPost.find({user: req.user.id})
+        .populate({"path" : "user"})
         .then(posts => {
             //res.status(200).json(posts);
             res.send(posts);
-            console.log('this is the id: ' + req.params.id);
-    
         })
         .catch(err => {
             console.error(err);

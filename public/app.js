@@ -3,17 +3,17 @@
 // once the real API is created. Instead of setTimeout, make 
 // an AJAX call to actual API.
 function getPosts(callbackFn) {
-    //let token = localStorage.getItem('authToken');
-    //console.log(token);
-
+    let token = sessionStorage.Bearer;
+    console.log(token);
     $.ajax({
         type: 'GET',
         url: '/posts',
         dataType: 'json',
-        //headers: {Authorization : `Bearer ${token}`},
+        headers: {Authorization : `Bearer ${token}`},
         success: function(data) {
             displayPosts(data);
             $('.postSection').prop('hidden', false);
+            //sessionStorage.getItem('token');
         },
         error: function(request, error) {
             console.log("Request: " + JSON.stringify(request));
@@ -74,7 +74,8 @@ function submitLogin() {
                 let jwt = data.authToken;
                 sessionStorage.setItem('Bearer', jwt);
                 $('.loginFormSection').prop('hidden', true);
-                getPosts(sessionStorage.getItem('username'));
+                //getPosts(sessionStorage.getItem('username'));
+                getPosts(jwt);
                 $('.menuOptions').prop('hidden', false);
             },
             error: function(request, error) {
@@ -163,7 +164,7 @@ function submitNewPostButton(data) {
             url: '/posts',
             data: postCreated,
             dataType: 'json',
-            success: function() {
+            success: function(data) {
                 $('.postList').append(`<li><div class="card-post"> ${newPost} </div></li>`);
             },
             error: function(request, error) {
