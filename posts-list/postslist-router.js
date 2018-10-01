@@ -36,7 +36,7 @@ router.get('/', jwtAuth, (req, res) => {
 })
 
 // POST endpoint
-router.post('/', (req, res) => {
+router.post('/', jwtAuth, (req, res) => {
     const requiredField = 'text';
     if (!(requiredField in req.body)) {
         const message = `Missing required \`${requiredField}\` in request body`;
@@ -45,7 +45,7 @@ router.post('/', (req, res) => {
     }
     GoalPost
         .create({
-            user: req.body.user,
+            user: req.user.id,
             text: req.body.text,
             notes: req.body.notes,
             images: req.body.images,
@@ -59,6 +59,7 @@ router.post('/', (req, res) => {
             res.status(500).json({error: 'Oops. Something went wrong.'});
         });
 })
+
 
 // PUT endpoint
 router.put('/:id', upload.single('myImage'), (req, res) => {
@@ -90,8 +91,7 @@ router.put('/:id', upload.single('myImage'), (req, res) => {
     if (notes.length === 0) {
         notes.push(req.body.notes);
     }
-    // this is for if user adds images to post
-    let images = [];
+    
     //if (images.length === 0) {
     //    images.push(req.body.images);
     //}

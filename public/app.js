@@ -4,7 +4,6 @@
 // an AJAX call to actual API.
 function getPosts(callbackFn) {
     let token = sessionStorage.Bearer;
-    console.log(token);
     $.ajax({
         type: 'GET',
         url: '/posts',
@@ -13,7 +12,6 @@ function getPosts(callbackFn) {
         success: function(data) {
             displayPosts(data);
             $('.postSection').prop('hidden', false);
-            //sessionStorage.getItem('token');
         },
         error: function(request, error) {
             console.log("Request: " + JSON.stringify(request));
@@ -76,10 +74,12 @@ function submitLogin() {
                 $('.loginFormSection').prop('hidden', true);
                 //getPosts(sessionStorage.getItem('username'));
                 getPosts(jwt);
+                $('.usernameGreetingHeader').append(`Hello, ${user}!`);
                 $('.menuOptions').prop('hidden', false);
             },
             error: function(request, error) {
-                console.log("Request: " + JSON.stringify(request));
+                //console.log("Request: " + JSON.stringify(request));
+                alert('Oops, username/password is incorrect.');
             }
         });
         // create post button to appear after loggin in
@@ -130,7 +130,10 @@ function submitSignUp() {
 // redirect back to home page
 function homepageRedirect() {
     $('#home').on('click', function() {
-        window.location = "/";
+        //window.location = "/";
+        //let token = sessionStorage.Bearer;
+        //sessionStorage.setItem(token);
+        //console.log(token);
     })
 }
 
@@ -158,12 +161,15 @@ function submitNewPostButton(data) {
         let newPost = targetInput.val();
         targetInput.val("");
 
+        let token = sessionStorage.Bearer;
+
         let postCreated = {text: newPost};
         $.ajax({
             type: 'POST',
             url: '/posts',
             data: postCreated,
             dataType: 'json',
+            headers: {Authorization: `Bearer ${token}`},
             success: function(data) {
                 $('.postList').append(`<li><div class="card-post"> ${newPost} </div></li>`);
             },
@@ -224,7 +230,7 @@ function updatedPostSubmit() {
             data: updatedPost,
             success: function(data) {
                 $('#openPostSection').find('.card-post').html(editedPost);
-                submitNoteButton(data);
+                
             },
             error: function( request, error) {
                 console.log("Request: " + JSON.stringify(request));
@@ -255,10 +261,24 @@ function submitNoteButton(data) {
         let targetInput = $(event.currentTarget).find('#js-note-input');
         let newNote = targetInput.val();
         targetInput.val("");
-        $('#noteList').append(`<li id="noteListItem">${newNote}</li>`);
-        $('.addNoteSection').prop('hidden', true);
-        $('.notesModalBox').toggle();
-    })
+        let postId = $('#openPostSection').find('.card-post');
+        postId = $(postId).data('card-post-id');
+        let postText = $('#openPostSection').find('.card-post').html();
+        let updatedPost = {text: postText, id: postId, notes: newNote};
+        $.ajax({
+            type: 'PUT',
+            url: `/posts/${postId}`,
+            data: updatedPost,
+            success: function(data) {
+                $('#noteList').append(`<li id="noteListItem">${newNote}</li>`);
+                $('.addNoteSection').prop('hidden', true);
+                $('.notesModalBox').toggle();
+            },
+            error: function(request, error) {
+                console.log("Request: " + JSON.stringify(request));
+            }
+        });
+    });
 }
 
 //function to add image to a single post
@@ -289,11 +309,24 @@ function deleteButton() {
     });
 }
 
-// function to make check-off button work
 function checkOffButton() {
     $('.checkOff').on('click', function() {
-        $('li').on('click', function() {
-            $(this).remove();
+        let postId = $('#openPostSection').find('.card-post');
+        postId = $(postId).data('card-post-id');
+        let postText = $('#openPostSection').find('.card-post').html();
+        console.log(postText);
+        let updatedPost = {text: postText, id: postId, completed: true};
+        console.log(updatedPost);
+        $.ajax({
+            type: 'PUT',
+            url: `/posts/${postId}`,
+            data: updatedPost,
+            success: function(data) {
+                $('#openPostSection').find('.card-post').addClass('completedCardPost');
+            },
+            error: function(request, error) {
+                console.log("Request: " + JSON.stringify(request));
+            }
         });
     });
 }
