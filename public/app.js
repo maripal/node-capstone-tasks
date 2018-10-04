@@ -24,15 +24,19 @@ function displayPosts(data) {
     for (let i = 0; i < data.length; i++) {
         if (data.length === 0) {
             $('.postSection').prop('hidden', false);
-        } else {
+        }  else {
         $('.postList').append(
             `<li><div class="card-post" data-card-post-id="${data[i]._id}"> ${data[i].text}</div></li>`
         );
-        }
     }
+    // why does this select all of the posts????
+    if (data[i].completed === true) {
+        $('.postList').find(`.card-post[data-card-post-id=${data[i]._id}]`).addClass('completedCardPost');
+        console.log(data[i]);
+    } 
 // create post button to appear after login
     $('.createButtonSection').prop('hidden', false); 
-
+    }
 }
 
 //function for dropdown menu
@@ -78,11 +82,9 @@ function submitLogin() {
                 $('.menuOptions').prop('hidden', false);
             },
             error: function(request, error) {
-                //console.log("Request: " + JSON.stringify(request));
                 alert('Oops, username/password is incorrect.');
             }
         });
-        // create post button to appear after loggin in
     });
 }
 
@@ -122,6 +124,9 @@ function submitSignUp() {
             },
             error: function(request, error) {
                 console.log("Request: " + JSON.stringify(request));
+                if (request.responseJSON.location === username) {
+                    alert("username already exists");
+                }
             }
         })
     });
@@ -130,11 +135,26 @@ function submitSignUp() {
 // redirect back to home page
 function homepageRedirect() {
     $('#home').on('click', function() {
-        //window.location = "/";
-        //let token = sessionStorage.Bearer;
-        //sessionStorage.setItem(token);
-        //console.log(token);
-    })
+        let token = sessionStorage.Bearer;
+        console.log('home button was clicked')
+        $.ajax({
+            type: 'POST',
+            url: '/auth/refresh/',
+            headers: {Authorization: `Bearer ${token}`},
+            success: function(data) {
+                $('.postSection').prop('hidden', false);
+                $('#openPostSection').prop('hidden', true);
+                $('.postList').toggle();
+                //location.reload();
+                sessionStorage.Bearer = data.authToken;
+                getPosts(displayPosts);
+                console.log(data);
+            }, 
+            error: function(request, error) {
+                console.log("Request: " + JSON.stringify(request));
+            }
+        });
+    });
 }
 
 function createAPost() {
@@ -186,13 +206,35 @@ function submitNewPostButton(data) {
 
 //open single post that was clicked on
 function openSinglePost() {
-    $('.postList').on('click', 'li', function() {
+    $('.postList').on('click', '.card-post', function() {
+        let token = sessionStorage.Bearer;
         let clickedPost = $(this);
-        console.log(clickedPost);
+        let postId = clickedPost;
+        postId = $(postId).data("card-post-id");
+        console.log(postId);
+        //console.log(clickedPost);
             $('#openPostSection').prop('hidden', false);
             $('#single-post-section').append($(clickedPost));
             $('.postList').toggle();
             //$('.imageUploadSection').prop('hidden', false);
+            $.ajax({
+                type: 'GET',
+                url:`/posts/${postId}`,
+                dataType: 'json',
+                headers: {Authorization: `Bearer ${token}`},
+                success: function(data) {
+                    console.log(data);
+                    for (let i = 0; i < data.notes.length; i++) {
+                    $('#noteList').append(`<li>${data.notes[i]}</li>`);
+                    }
+                    if (data.completed === true) {
+                        $('#openPostSection').find('.card-post').addClass('completedCardPost');
+                    }
+                },
+                error: function(request, error) {
+                    console.log("Request: " + JSON.stringify(request));
+                }
+            })
     });
 }
 
@@ -214,6 +256,7 @@ function editPost() {
 //function to submit update post w/ ajax call
 function updatedPostSubmit() {
     $('.editPostForm').submit(function(event) {
+        let token = sessionStorage.Bearer;
         event.preventDefault();
         let targetInput = $(event.currentTarget).find('#js-edit-post');
         console.log(event.currentTarget);
@@ -228,6 +271,7 @@ function updatedPostSubmit() {
             type: 'PUT',
             url: `/posts/${postId}`,
             data: updatedPost,
+            headers: {Authorization: `Bearer ${token}`},
             success: function(data) {
                 $('#openPostSection').find('.card-post').html(editedPost);
                 
@@ -258,6 +302,7 @@ function addANote() {
 function submitNoteButton(data) {
     $('.js-add-note').submit(function(event) {
         event.preventDefault();
+        let token = sessionStorage.Bearer;
         let targetInput = $(event.currentTarget).find('#js-note-input');
         let newNote = targetInput.val();
         targetInput.val("");
@@ -269,6 +314,7 @@ function submitNoteButton(data) {
             type: 'PUT',
             url: `/posts/${postId}`,
             data: updatedPost,
+            headers: {Authorization: `Bearer ${token}`},
             success: function(data) {
                 $('#noteList').append(`<li id="noteListItem">${newNote}</li>`);
                 $('.addNoteSection').prop('hidden', true);
@@ -292,6 +338,7 @@ function deleteButton() {
     $('.delete').on('click', function() {
         //$(this).toggleClass('deleting');
         //$('li').toggleClass('deleting');
+        let token = sessionStorage.Bearer;
         let deletedPostId = $('#openPostSection').find('.card-post');
         deletedPostId = $(deletedPostId).data("card-post-id");
 
@@ -299,6 +346,7 @@ function deleteButton() {
             type: 'DELETE',
             url: `/posts/${deletedPostId}`,
             dataType: 'json',
+            headers: {Authorization: `Bearer ${token}`},
             success: function() {
                 $('#openPostSection').find('.card-post').remove();
             },
@@ -311,19 +359,22 @@ function deleteButton() {
 
 function checkOffButton() {
     $('.checkOff').on('click', function() {
+        let token = sessionStorage.Bearer;
         let postId = $('#openPostSection').find('.card-post');
         postId = $(postId).data('card-post-id');
         let postText = $('#openPostSection').find('.card-post').html();
-        console.log(postText);
         let updatedPost = {text: postText, id: postId, completed: true};
         console.log(updatedPost);
         $.ajax({
             type: 'PUT',
             url: `/posts/${postId}`,
             data: updatedPost,
-            success: function(data) {
-                $('#openPostSection').find('.card-post').addClass('completedCardPost');
-            },
+            headers: {Authorization: `Bearer ${token}`},
+            success: function() {
+                if (updatedPost.completed === true) {
+                postId = $('#openPostSection').find('.card-post').addClass('completedCardPost');
+                }
+        },
             error: function(request, error) {
                 console.log("Request: " + JSON.stringify(request));
             }
