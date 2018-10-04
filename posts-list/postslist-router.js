@@ -35,6 +35,16 @@ router.get('/', jwtAuth, (req, res) => {
         })
 })
 
+router.get('/:id', jwtAuth, (req, res) => {
+    GoalPost.findById(req.params.id)
+    .then(post => {
+        res.send(post);
+    })
+    .catch(err => {
+        res.status(500).json({error: 'Something went wrong.'});
+    })
+})
+
 // POST endpoint
 router.post('/', jwtAuth, (req, res) => {
     const requiredField = 'text';
@@ -62,8 +72,7 @@ router.post('/', jwtAuth, (req, res) => {
 
 
 // PUT endpoint
-router.put('/:id', upload.single('myImage'), (req, res) => {
-    console.log(req.file);
+router.put('/:id', jwtAuth, upload.single('myImage'), (req, res) => {
     const requiredField = 'text';
     if(!(requiredField in req.body)) {
         const message = `Missing required \`${requiredField}\` in request body`;
@@ -86,38 +95,47 @@ router.put('/:id', upload.single('myImage'), (req, res) => {
             updated[field] = req.body[field];
         }
     });
-          // this is for if user adds notes to post
-    let notes = [];
-    if (notes.length === 0) {
-        notes.push(req.body.notes);
-    }
+
     
-    //if (images.length === 0) {
-    //    images.push(req.body.images);
+    //let images = []
+    //if (req.file) {
+    //    updated['images'] = {path : req.file.path};
     //}
-    if (req.file) {
-        images = {path : req.file.path};
-    }
-    GoalPost
-        .findByIdAndUpdate(req.params.id, {$set: updated}, {new: true})//{$set: {text: req.body.text}})
+    //console.log("image info: " + images);
+    GoalPost.findById(req.params.id)
+        //will be able to update array, w/out deleting what's already on there (working)
+        .then(post => {
+            console.log(updated.notes);
+            if (post.notes.length >= 1 && updated.notes != undefined) {
+                post.notes.push(updated.notes);
+                updated.notes = post.notes;
+                console.log(updated);
+            } 
+        
+        //have to fix this, so I can update other fields (not working, need to tweak this up a bit)
+        GoalPost.findByIdAndUpdate(req.params.id, {$set: updated}, {new: true})
+        .then(post => {
+            res.status(204).end();
+        })
+    
+        //.then(post => {res.status(204).end();
+        //})
+        
+        
+        
         //.then(post => {
         //    return res.status(204).end();
         //})
-        .then(updatedPost => res.status(200).json({
-            id: updatedPost.id,
-            text: updatedPost.text,
-            images: updatedPost.images,
-            notes: updatedPost.notes,
-            completed: updatedPost.completed
-        }))
         .catch(err => {
             console.error(err);
             res.status(500).json({error: 'Oops. Something went wrong.'});
         });
+        })
+        
 })
-;
+
 // DELETE endpoint
-router.delete('/:id', (req, res) => {
+router.delete('/:id', jwtAuth, (req, res) => {
     GoalPost
         .findByIdAndRemove(req.params.id)
         .then(post => {
