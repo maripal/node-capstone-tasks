@@ -113,7 +113,7 @@ router.put('/:id', jwtAuth, upload.single('myImage'), (req, res) => {
             } 
         
         //have to fix this, so I can update other fields (not working, need to tweak this up a bit)
-        GoalPost.findByIdAndUpdate(req.params.id, {$set: updated}, {new: true})
+        GoalPost.findByIdAndUpdate(req.body.id, {$set: updated}, {new: true})
         .then(post => {
             res.status(204).end();
         })
