@@ -42,7 +42,7 @@ function displayPosts(data) {
 function dropDown() {
     $('.dropdownButton').on('click', function() {
         $('div.nav-options').prop('hidden', false);
-        $('div.nav-options a').toggle();
+        $('div.nav-options').toggle();
     })
 }
 
@@ -79,6 +79,7 @@ function submitLogin() {
                 getPosts(jwt);
                 $('.usernameGreetingHeader').append(`Hello, ${user}!`);
                 $('.menuOptions').prop('hidden', false);
+                $('#home').hide();
             },
             error: function(request, error) {
                 alert('Oops, username/password is incorrect.');
@@ -234,6 +235,8 @@ function openSinglePost() {
 
                     //hide username greeting
                     $('.usernameGreetingHeader').hide();
+
+                    $('#home').show();
                 },
                 error: function(request, error) {
                     console.log("Request: " + JSON.stringify(request));
