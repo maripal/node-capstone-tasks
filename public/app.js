@@ -32,7 +32,6 @@ function displayPosts(data) {
     // why does this select all of the posts????
     if (data[i].completed === true) {
         $('.postList').find(`.card-post[data-card-post-id=${data[i]._id}]`).addClass('completedCardPost');
-        console.log(data[i]);
     } 
 // create post button to appear after login
     $('.createButtonSection').prop('hidden', false); 
@@ -147,7 +146,7 @@ function homepageRedirect() {
                 $('.postList').toggle();
                 //location.reload();
                 sessionStorage.Bearer = data.authToken;
-                getPosts(displayPosts);
+                //getPosts(displayPosts);
                 console.log(data);
             }, 
             error: function(request, error) {
@@ -211,11 +210,7 @@ function openSinglePost() {
         let clickedPost = $(this);
         let postId = clickedPost;
         postId = $(postId).data("card-post-id");
-        console.log(postId);
-        //console.log(clickedPost);
-            $('#openPostSection').prop('hidden', false);
-            $('#single-post-section').append($(clickedPost));
-            $('.postList').toggle();
+    
             //$('.imageUploadSection').prop('hidden', false);
             $.ajax({
                 type: 'GET',
@@ -223,13 +218,22 @@ function openSinglePost() {
                 dataType: 'json',
                 headers: {Authorization: `Bearer ${token}`},
                 success: function(data) {
-                    console.log(data);
+                    $('#openPostSection').prop('hidden', false);
+                    //$('#single-post-section').append($(clickedPost));
+                    $(clickedPost).clone().appendTo('#single-post-section');
+                    $('.postList').toggle();
+                    
+                    //to add notes to single post
                     for (let i = 0; i < data.notes.length; i++) {
                     $('#noteList').append(`<li>${data.notes[i]}</li>`);
                     }
+                    //add this class if post is checked off (completed)
                     if (data.completed === true) {
                         $('#openPostSection').find('.card-post').addClass('completedCardPost');
                     }
+
+                    //hide username greeting
+                    $('.usernameGreetingHeader').hide();
                 },
                 error: function(request, error) {
                     console.log("Request: " + JSON.stringify(request));
@@ -349,6 +353,11 @@ function deleteButton() {
             headers: {Authorization: `Bearer ${token}`},
             success: function() {
                 $('#openPostSection').find('.card-post').remove();
+                $('#noteList').remove();
+                $('#noteListSection').toggle();
+
+                //display message to show post has been deleted
+                $('.postSection').html('<div class="deletedPostMessage"><h2>Post has been deleted.</h2></div>');
             },
             error: function(request, error) {
                 console.log("Request: " + JSON.stringify(request));
