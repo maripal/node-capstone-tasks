@@ -73,7 +73,7 @@ router.post('/', jwtAuth, (req, res) => {
 
 
 // PUT endpoint
-router.put('/:id', jwtAuth, upload.single('myImage'), (req, res) => {
+router.put('/:id', jwtAuth, upload.array('myImage', 12), (req, res) => {
     const requiredField = 'text';
     if(!(requiredField in req.body)) {
         const message = `Missing required \`${requiredField}\` in request body`;
