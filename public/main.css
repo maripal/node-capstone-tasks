@@ -101,6 +101,18 @@ div.nav-options a {
     color: white;
 }
 
+.userAccountOptions {
+    text-align: center;
+    margin-top: 45px;
+    font-size: 14px;
+    font-family: sans-serif;
+}
+
+.signUpView, .loginView {
+    text-decoration: none;
+    color: #496eca;
+}
+
 /* login and signup form styles */
 .login-section, .signup-section {
     width: 100%;
@@ -163,13 +175,7 @@ div.nav-options a {
     letter-spacing: 2px;
     color: black;
     text-align: center;
-    /*box-shadow: 0 1px 6px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.24);*/
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
-
-.card-post:hover {
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-  }
 
 .completedCardPost {
     background-color: #89ceeb;
@@ -199,10 +205,11 @@ div.nav-options a {
     font-size: 14px;
     color: white;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 /* Create post modal pop up styles */
-.postModalBox, .notesModalBox, .editPostModalBox {
+.postModalBox, .notesModalBox, .editPostModalBox, .imagesModalBox {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -239,11 +246,12 @@ div.nav-options a {
     font-size: 14px;
 }
 
-.closeWindow, .closeEditWindow, .closeNoteWindow {
+.closeWindow, .closeEditWindow, .closeNoteWindow, .closeImageWindow {
     position: absolute;
     top: 15px;
     right: 15px;
     color: white;
+    font-size: 22px;
 }
 
 #js-new-post-input, #js-note-input, #js-edit-post {
@@ -254,7 +262,7 @@ div.nav-options a {
     font-size: 14px;
 }
 
-.submitPost, .submitNote {
+.submitPost, .submitNote, .submitImageButton {
     margin-top: 25px;
     background-color: white;
     width: 50%;
@@ -288,7 +296,7 @@ div.nav-options a {
 }
 
 /* Notes styles */
-#addNotesPopUp {
+#addNotesPopUp, .imageUploadContainer {
     width: 85%;
     margin-left: auto;
     margin-right: auto;
@@ -298,14 +306,14 @@ div.nav-options a {
     position: relative;
 }
 
-#noteListSection {
+#noteListSection, .imagesCollectionSection {
     width: 100%;
     border: 2px solid #84ceeb;
     border-radius: 5px;
     margin-bottom: 20px;
 }
 
-.notesHeader {
+.notesHeader, .imagesHeader {
     color: white;
     font-size: 24px;
     display: block;
@@ -317,7 +325,7 @@ div.nav-options a {
     letter-spacing: 3px;
 }
 
-.postAddNote {
+.postAddNote, .postAddImage {
     background-color: transparent;
     border: transparent;
     float: right;
@@ -339,7 +347,7 @@ div.nav-options a {
     padding-left: 10px;
 }
 
-#noteListItem {
+.noteListItem {
     margin-bottom: 5px;
 }
 
@@ -360,6 +368,7 @@ div.nav-options a {
 .postOptions {
     width: 100%;
     margin-bottom: 20px;
+    margin-top: 50px;
     text-align: center;
 }
 
@@ -375,53 +384,40 @@ div.nav-options a {
     margin-right: 15px;
 }
 
-.imagesCollectionSection {
-    width: 100%;
-    border: 2px solid black;
-    margin-top: 20px;
-}
-
-.imageUploadContainer {
-    width: 100%;
-    border: 1px solid black;
-    padding: 20px;  
-    text-align: center;  
-    margin-bottom: 20px;
-}
-
 #uploadImageTitle {
     font-size: 18px;
     font-family: sans-serif;
     margin-bottom: 20px;
 }
 
-#myImage {
+/*#myImage {
     display: block;
     width: 100%;
     height: 40px;
-    border: 1px solid #8666d1;
+    border: 1px solid white;
     border-radius: 5px;
+    background-color: white;
     padding-top: 8px;
     font-size: 14px;
+}*/
+
+label.imageUploadButton input[type="file"] {
+    position: absolute;
+    top: -1000px;
 }
 
-.submitImageButton {
-    width: 35%;
-    border: 1px solid #8666d1;
-    background-color: #8666d1;
-    color: white;
-    border-radius: 5px;
-    height: 41px;
-    padding: 8px;
-    margin: 20px auto;
-    font-size: 14px;
+.imageUploadButton {
+    border: 2px solid #AAA;
+    border-radius: 4px;
+    padding: 2px 5px;
+    margin: 2px;
+    background: #DDD;
+    display: inline-block;
 }
 
-/*
-.card-post:hover {
-    box-shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.5);
+.uploadIcon {
+    margin-left: 5px;
 }
-*/
 
 /* Media queries for bigger screen sizes */
 @media only screen and (min-width: 640px) {
@@ -475,16 +471,18 @@ div.nav-options a {
         font-size: 16px;
     }
 
-    #single-post-section {
-        margin-top: 100px;
-    }
-
     .card-post {
         font-size: 24px;
     }
 
-    .submitPost, .submitNote {
+    .submitPost, .submitNote, .submitImageButton {
         font-size: 16px;
+        height: 41px;
+        width: 40%;
+    }
+
+    #js-note-input {
+        height: 35px;
     }
 }
 
@@ -506,15 +504,79 @@ div.nav-options a {
         text-align: center;
     }
 
+    #landing-login-button, #landing-signup-button {
+        width: 50%;
+    }
+
     .login-section, .signup-section {
         margin-top: 250px;
+    }
+
+    #username, #user-password, #user-firstname, 
+    #user-lastname, #user-username, #user-pass {
+        width: 55%;
+
+    }
+
+    #login-submit-button, #signup-button {
+        width: 55%;
+    }
+
+    .create {
+        width: 35%;
+        height: 51px;
     }
 
     .card-post {
         font-size: 28px;
     }
 
+    .submitEditedPost {
+        width: 40%;
+        height: 41px;
+        font-size: 16px;
+        margin-top: 30px;
+    }
+
+    #js-note-input, #js-new-post-input, #js-edit-post {
+        width: 80%;
+        height: 35px;
+    }
+
     #noteList {
         font-size: 18px;
     }
+
+    .closeWindow, .closeEditWindow, .closeNoteWindow, .closeImageWindow {
+        font-size: 24px;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .landing-page-info {
+        text-align: center;
+        margin-top: 300px;
+    }
+
+    #landing-login-button, #landing-signup-button {
+        display: inline-block;
+        width: 25%;
+    }
+
+    .login-section, .signup-section {
+        width: 60%;
+    }
+
+    .userAccountOptions {
+        font-size: 16px;
+    }
+
+    .card-post {
+        /*box-shadow: 0 1px 6px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.24);*/
+        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    }
+
+    .card-post:hover {
+        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+      }
 }

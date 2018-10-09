@@ -66,14 +66,16 @@
                     <div class="login-section">
                         <form action="#" class="login-form">
                             <legend id="login-title">Login</legend>
-                            <label for="username">
+                            <label for="username" aria-label="Type your username">
                                 <input type="text" id="username" name="username" placeholder="Username" required>
                             </label>
-                            <label for="user-password">
+                            <label for="user-password" aria-label="Type in your password">
                                 <input type="password" id="user-password" name="user-password" placeholder="Password" required>
                             </label>
                             <button type="submit" id="login-submit-button">Login</button>
                         </form>
+
+                        <p class="userAccountOptions">Don't have an account? <a href="#" class="signUpView">Sign up here.</a></p>
                     </div>
                 </div>
             </div>
@@ -86,20 +88,22 @@
                     <div class="signup-section">
                         <form action="#" class="signup-form">
                             <legend id="signup-title">Sign Up</legend>
-                            <label for="user-firstname">
+                            <label for="user-firstname" aria-label="Type in your first name">
                                 <input type="text" id="user-firstname" name="user-firstname" placeholder="First Name" required>
                             </label>
-                            <label for="user-lastname">
+                            <label for="user-lastname" aria-label="Type in your last name">
                                 <input type="text" id="user-lastname" name="user-lastname" placeholder="Last Name" required>
                             </label>
-                            <label for="user-username">
+                            <label for="user-username" aria-label="Type in a username">
                                 <input type="text" id="user-username" name="user-username" placeholder="Username" required>
                             </label>
-                            <label for="user-pass">
+                            <label for="user-pass" aria-label="Type in a password">
                                 <input type="password" id="user-pass" name="user-pass" placeholder="Password" required>
                             </label>
                             <button type="submit" id="signup-button">Sign Up</button>
                         </form>
+
+                        <p class="userAccountOptions">Already have an account? <a href="#" class="loginView">Log in here.</a></p>
                     </div>
                 </div>
             </div>
@@ -113,7 +117,7 @@
                     <div class="createNewPostPopUp">
                             <i class="fa fa-times-circle closeWindow" id="close-create-post" aria-hidden="true"></i>
                         <form action="#" class="js-create-new-post">                            
-                            <label for="js-new-post-input">
+                            <label for="js-new-post-input" aria-label="Type in a goal, to create a new post">
                                 <input type="text" id="js-new-post-input" name="js-new-post-input" placeholder="Enter new goal" required>
                             </label>
                             <button class="submitPost" type="submit">Submit</button>
@@ -138,9 +142,9 @@
                 <div class="col-8" id="openPostSection" hidden>
 
                         <div class="postOptions">
-                            <button class="delete" type="button"><i class="fas fa-trash"></i></button>
-                            <button class="update" type="button"><i class="fas fa-pen-square"></i></i></button>
-                            <button class="checkOff" type="button"><i class="fas fa-check"></i></button>
+                            <button class="delete" type="button" aria-label="Click to delete post"><i class="fas fa-trash"></i></button>
+                            <button class="update" type="button" aria-label="Click to update/edit post"><i class="fas fa-pen-square"></i></i></button>
+                            <button class="checkOff" type="button" aria-label="Click to check off post as completed"><i class="fas fa-check"></i></button>
                         </div>
 
                     <div id="single-post-section">
@@ -151,15 +155,21 @@
                     <div id="noteListSection">
                         <div class="notesHeader">
                             <span id="notesSpan">Notes:</span>
-                            <button class="postAddNote" type="button"><i class="fas fa-plus"></i></button>
+                            <button class="postAddNote" type="button" aria-label="Click to add a note"><i class="fas fa-plus"></i></button>
                         </div>
                         <ul id="noteList">
 
                         </ul>
                     </div>
 
-                    <div class="imagesCollectionSection" hidden>
-                        
+                    <div class="imagesCollectionSection">
+                        <div class="imagesHeader">
+                            <span id="imagesSpan">Images:</span>
+                            <button class="postAddImage" type="button" aria-label="Click to add an image"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <ul id="imageList">
+
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -169,7 +179,7 @@
                 <div class="editPopUp">
                         <i class="fa fa-times-circle closeEditWindow" aria-hidden="true"></i>
                     <form action="#" class="editPostForm">
-                        <label for="js-edit-post">
+                        <label for="js-edit-post" aria-label="Type to edit post">
                             <input type="text" id="js-edit-post" name="js-edit-post" placeholder="Edit goal..." required>
                         </label>
                         <button type="submit" class="submitEditedPost">Submit</button>
@@ -183,10 +193,10 @@
                 <div class="col-12">
                     <div class="notesModalBox">
                         <div id="addNotesPopUp">
-                            <i class="fa fa-times-circle closeNoteWindow" id="close-create-post" aria-hidden="true"></i>
+                            <i class="fa fa-times-circle closeNoteWindow" aria-hidden="true"></i>
                             <form action="#" class="js-add-note">
                                 <legend id="noteLegend">Add a note...</legend>
-                                <label for="js-note-input">
+                                <label for="js-note-input" aria-label="Type a note">
                                     <input type="text" id="js-note-input" name="js-note-input" required>
                                 </label>
                                 <button type="submit" class="submitNote">Submit</button>
@@ -201,14 +211,17 @@
         <section role="region" class="imageUploadSection" hidden>
             <div class="row">
                 <div class="col-12">
+                    <div class="imagesModalBox">
                     <div class="imageUploadContainer">
+                        <i class="fa fa-times-circle closeImageWindow" aria-hidden="true"></i>
                         <form action="/images" method="PUT" class="js-image-upload-form" enctype="multipart/form-data">
-                            <label for="myImage">
+                            <label for="myImage" class="imageUploadButton" aria-label="Upload an image">
                                 <div id="uploadImageTitle">Upload Image</div>
                                 <input type="file" id="myImage" name="myImage">
                             </label>
-                            <button type="submit" class="submitImageButton">Upload<i class="fas fa-upload"></i></button>
+                            <button type="submit" class="submitImageButton">Upload<i class="fas fa-upload uploadIcon"></i></button>
                         </form>
+                    </div>
                     </div>
                 </div>
             </div>

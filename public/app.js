@@ -53,6 +53,11 @@ function openLoginForm() {
         $('.loginFormSection').prop('hidden', false);
         $('.landingPageSection').toggle();
     })
+
+    $('.loginView').on('click', function() {
+        $('.loginFormSection').prop('hidden', false);
+        $('.signupFormSection').prop('hidden', true);
+    })
 }
 
 //function to login
@@ -94,6 +99,12 @@ function openSignUpForm() {
     $('#landing-signup-button').on('click', function() {
         $('.signupFormSection').prop('hidden', false);
         $('.landingPageSection').toggle();
+    })
+
+    //this is to open sign up form, from login form
+    $('.signUpView').on('click', function() {
+        $('.signupFormSection').prop('hidden', false);
+        $('.loginFormSection').prop('hidden', true);
     })
 }
 
@@ -137,7 +148,6 @@ function submitSignUp() {
 function homepageRedirect() {
     $('#home').on('click', function() {
         let token = sessionStorage.Bearer;
-        console.log('home button was clicked')
         $.ajax({
             type: 'POST',
             url: '/auth/refresh/',
@@ -150,8 +160,6 @@ function homepageRedirect() {
                 $('#home').hide();
                 
                 sessionStorage.Bearer = data.authToken;
-                
-                console.log(data);
             }, 
             error: function(request, error) {
                 console.log("Request: " + JSON.stringify(request));
@@ -236,7 +244,7 @@ function openSinglePost() {
                     $('#noteList').html("");
                     //to add notes to single post
                     for (let i = 0; i < data.notes.length; i++) {
-                    $('#noteList').append(`<li>${data.notes[i]}</li>`);
+                    $('#noteList').append(`<li class="noteListItem">${data.notes[i]}</li>`);
                     }
                     //add this class if post is checked off (completed)
                     if (data.completed === true) {
@@ -332,7 +340,7 @@ function submitNoteButton(data) {
             data: updatedPost,
             headers: {Authorization: `Bearer ${token}`},
             success: function(data) {
-                $('#noteList').append(`<li id="noteListItem">${newNote}</li>`);
+                $('#noteList').append(`<li class="noteListItem">${newNote}</li>`);
                 $('.addNoteSection').prop('hidden', true);
                 $('.notesModalBox').toggle();
             },
@@ -343,11 +351,48 @@ function submitNoteButton(data) {
     });
 }
 
+//function to open image form
+function addImageForm() {
+    $('.postAddImage').on('click', function() {
+        $('.imageUploadSection').prop('hidden', false);
+        $('.imagesModalBox').toggle();
+    });
+
+    $('.closeImageWindow').on('click', function() {
+        $('.imageUploadSection').prop('hidden', true);
+        $('.imagesModalBox').toggle();
+    })
+}
+
 //function to add image to a single post
-//$('.js-image-upload-form').submit(function(event) {
-//    event.preventDefault();
-    
-//})
+function submitImage() {
+    $('.js-image-upload-form').submit(function(event) {
+        event.preventDefault();
+        let token = sessionStorage.Bearer;
+        let targetInput = $(event.currentTarget).find('#myImage');
+        let imageVal = targetInput.val();
+        targetInput.val("");
+        let postId = $('#openPostSection').find('.card-post');
+        postId = $(postId).data('card-post-id');
+        let postText = $('#openPostSection').find('.card-post').html();
+        let updatedPost = {text: postText, id: postId, images: imageVal};
+
+        $.ajax({
+            type: 'PUT',
+            url: `/posts/${postId}`,
+            data: updatedPost,
+            headers: {Authorization: `Bearer ${token}`},
+            success: function(data) {
+                $('#imageList').append(`<li class="imageItem">${imageVal}</li>`);
+                $('.imageUploadSection').prop('hidden', true);
+                $('.imagesModalBox').toggle();
+            },
+            error: function(request, error) {
+                console.log("Request: " + JSON.stringify(request));
+            }
+        });
+    });
+}
 
 // function to make delete button work
 function deleteButton() {
@@ -435,6 +480,8 @@ $(submitNoteButton);
 $(openSinglePost);
 $(editPost);
 $(updatedPostSubmit);
+$(addImageForm);
+$(submitImage);
 $(openLoginForm);
 $(submitLogin);
 $(openSignUpForm);
