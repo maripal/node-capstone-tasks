@@ -136,24 +136,15 @@
                 </div>
 
                 <div class="col-8" id="openPostSection" hidden>
-                    <div id="single-post-section">
+
                         <div class="postOptions">
                             <button class="delete" type="button"><i class="fas fa-trash"></i></button>
                             <button class="update" type="button"><i class="fas fa-pen-square"></i></i></button>
                             <button class="checkOff" type="button"><i class="fas fa-check"></i></button>
                         </div>
 
-                        <div class="editPostModalBox" >
-                            <div class="editPopUp">
-                                    <i class="fa fa-times-circle closeEditWindow" aria-hidden="true"></i>
-                                <form action="#" class="editPostForm">
-                                    <label for="js-edit-post">
-                                        <input type="text" id="js-edit-post" name="js-edit-post" placeholder="Edit goal..." required>
-                                    </label>
-                                    <button type="submit" class="submitEditedPost">Submit</button>
-                                </form>
-                            </div>
-                        </div>
+                    <div id="single-post-section">
+                        
                         
                     </div>
 
@@ -173,6 +164,18 @@
                 </div>
             </div>
         </section>
+
+        <div class="editPostModalBox" >
+                <div class="editPopUp">
+                        <i class="fa fa-times-circle closeEditWindow" aria-hidden="true"></i>
+                    <form action="#" class="editPostForm">
+                        <label for="js-edit-post">
+                            <input type="text" id="js-edit-post" name="js-edit-post" placeholder="Edit goal..." required>
+                        </label>
+                        <button type="submit" class="submitEditedPost">Submit</button>
+                    </form>
+                </div>
+            </div>
 
         <!-- Notes modal pop up for a certain post -->
         <section role="region" class="addNoteSection" aria-live="assertive" hidden>
@@ -199,7 +202,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="imageUploadContainer">
-                        <form action="/images" method="POST" class="js-image-upload-form" enctype="multipart/form-data">
+                        <form action="/images" method="PUT" class="js-image-upload-form" enctype="multipart/form-data">
                             <label for="myImage">
                                 <div id="uploadImageTitle">Upload Image</div>
                                 <input type="file" id="myImage" name="myImage">

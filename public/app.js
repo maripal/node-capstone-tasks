@@ -12,6 +12,7 @@ function getPosts(callbackFn) {
         success: function(data) {
             displayPosts(data);
             $('.postSection').prop('hidden', false);
+            $('#home').hide();
         },
         error: function(request, error) {
             console.log("Request: " + JSON.stringify(request));
@@ -29,7 +30,7 @@ function displayPosts(data) {
             `<li><div class="card-post" data-card-post-id="${data[i]._id}"> ${data[i].text}</div></li>`
         );
     }
-    // why does this select all of the posts????
+    
     if (data[i].completed === true) {
         $('.postList').find(`.card-post[data-card-post-id=${data[i]._id}]`).addClass('completedCardPost');
     } 
@@ -144,10 +145,12 @@ function homepageRedirect() {
             success: function(data) {
                 $('.postSection').prop('hidden', false);
                 $('#openPostSection').prop('hidden', true);
-                $('.postList').toggle();
-                //location.reload();
+                //$('.postList').toggle();
+                $('.postsListSection').toggle();
+                $('#home').hide();
+                
                 sessionStorage.Bearer = data.authToken;
-                //getPosts(displayPosts);
+                
                 console.log(data);
             }, 
             error: function(request, error) {
@@ -191,7 +194,7 @@ function submitNewPostButton(data) {
             dataType: 'json',
             headers: {Authorization: `Bearer ${token}`},
             success: function(data) {
-                $('.postList').append(`<li><div class="card-post"> ${newPost} </div></li>`);
+                $('.postList').append(`<li><div class="card-post" data-card-post-id="${data.id}"> ${newPost} </div></li>`);
             },
             error: function(request, error) {
                 console.log("Request: " + JSON.stringify(request));
@@ -220,10 +223,17 @@ function openSinglePost() {
                 headers: {Authorization: `Bearer ${token}`},
                 success: function(data) {
                     $('#openPostSection').prop('hidden', false);
-                    //$('#single-post-section').append($(clickedPost));
-                    $(clickedPost).clone().appendTo('#single-post-section');
-                    $('.postList').toggle();
                     
+                    //this clears out any html in single-post-section, so it doesn't keep appending a post
+                    $('#single-post-section').html("");
+
+                    //this leaves it on post list and adds it to single post, BUT keeps appending to single post
+                    $(clickedPost).clone().appendTo('#single-post-section');
+                    //$('.postList').toggle();
+                    $('.postsListSection').toggle();
+                    
+                    //clears out html from note list, so it doesn't keep appending when post is opened
+                    $('#noteList').html("");
                     //to add notes to single post
                     for (let i = 0; i < data.notes.length; i++) {
                     $('#noteList').append(`<li>${data.notes[i]}</li>`);
@@ -249,14 +259,14 @@ function openSinglePost() {
 function editPost() {
     $('.postList').on('click', 'li', function() {
         $('.update').on('click', function() {
-            $('.editPostModalBox').toggle();
-            $('.editPopUp').toggle();
+            $('.editPostModalBox').show();
+            $('.editPopUp').show();
         });
     });
 
     $('.closeEditWindow').on('click', function() {
-        $('.editPostModalBox').toggle();
-        $('.editPopUp').toggle();
+        $('.editPostModalBox').hide();
+        $('.editPopUp').hide();
     })
 }
 
@@ -266,22 +276,21 @@ function updatedPostSubmit() {
         let token = sessionStorage.Bearer;
         event.preventDefault();
         let targetInput = $(event.currentTarget).find('#js-edit-post');
-        console.log(event.currentTarget);
         let editedPost = targetInput.val();
         targetInput.val("");
         let postId = $('#openPostSection').find('.card-post');
         postId = $(postId).data("card-post-id");
         let updatedPost = {text: editedPost, id: postId};
-        console.log(editedPost);
-        console.log(postId);
         $.ajax({
             type: 'PUT',
             url: `/posts/${postId}`,
             data: updatedPost,
             headers: {Authorization: `Bearer ${token}`},
             success: function(data) {
-                $('#openPostSection').find('.card-post').html(editedPost);
-                
+                $('#single-post-section').find(`.card-post[data-card-post-id=${postId}]`).html(editedPost);
+
+                //saves edited post to post on post list as well
+                $('.postList').find(`.card-post[data-card-post-id=${postId}]`).html(editedPost);
             },
             error: function( request, error) {
                 console.log("Request: " + JSON.stringify(request));
@@ -355,12 +364,13 @@ function deleteButton() {
             dataType: 'json',
             headers: {Authorization: `Bearer ${token}`},
             success: function() {
-                $('#openPostSection').find('.card-post').remove();
-                $('#noteList').remove();
-                $('#noteListSection').toggle();
+                $('#openPostSection').find(`.card-post[data-card-post-id=${deletedPostId}]`).remove();
+                //remove item from post list
+                $(`.card-post[data-card-post-id=${deletedPostId}]`).parent().remove();
 
                 //display message to show post has been deleted
-                $('.postSection').html('<div class="deletedPostMessage"><h2>Post has been deleted.</h2></div>');
+                $('#openPostSection').html('<div class="deletedPostMessage"><h2>Post has been deleted.</h2></div>');
+                
             },
             error: function(request, error) {
                 console.log("Request: " + JSON.stringify(request));
@@ -377,15 +387,20 @@ function checkOffButton() {
         let postText = $('#openPostSection').find('.card-post').html();
         let updatedPost = {text: postText, id: postId, completed: true};
         console.log(updatedPost);
+        console.log('this is the completed post id : ' + postId);
         $.ajax({
             type: 'PUT',
             url: `/posts/${postId}`,
             data: updatedPost,
             headers: {Authorization: `Bearer ${token}`},
             success: function() {
-                if (updatedPost.completed === true) {
-                postId = $('#openPostSection').find('.card-post').addClass('completedCardPost');
-                }
+                /* if (updatedPost.completed === true) {
+                    postId = $('#openPostSection').find('.card-post').addClass('completedCardPost');
+                } */
+
+                //is it ok to do this instead of the conditional statement above??
+                $('#openPostSection').find(`.card-post[data-card-post-id=${postId}]`).addClass('completedCardPost');
+                $('.postList').find(`.card-post[data-card-post-id=${postId}]`).addClass('completedCardPost');
         },
             error: function(request, error) {
                 console.log("Request: " + JSON.stringify(request));
