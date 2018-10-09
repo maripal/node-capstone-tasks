@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
 
 const jwtAuth = passport.authenticate('jwt', {session: false});
 //initialize image upload
-const upload = multer({storage});
+const upload = multer({storage : storage});
 
 // GET endpoint
 router.get('/', jwtAuth, (req, res) => {
@@ -55,6 +55,7 @@ router.post('/', jwtAuth, (req, res) => {
     }
     GoalPost
         .create({
+
             user: req.user.id,
             text: req.body.text,
             notes: req.body.notes,
@@ -96,14 +97,13 @@ router.put('/:id', jwtAuth, upload.single('myImage'), (req, res) => {
         }
     });
 
-    
     //let images = []
     //if (req.file) {
     //    updated['images'] = {path : req.file.path};
     //}
     //console.log("image info: " + images);
+
     GoalPost.findById(req.params.id)
-        //will be able to update array, w/out deleting what's already on there (working)
         .then(post => {
             console.log(updated.notes);
             if (post.notes.length >= 1 && updated.notes != undefined) {
@@ -112,20 +112,10 @@ router.put('/:id', jwtAuth, upload.single('myImage'), (req, res) => {
                 console.log(updated);
             } 
         
-        //have to fix this, so I can update other fields (not working, need to tweak this up a bit)
         GoalPost.findByIdAndUpdate(req.body.id, {$set: updated}, {new: true})
         .then(post => {
             res.status(204).end();
         })
-    
-        //.then(post => {res.status(204).end();
-        //})
-        
-        
-        
-        //.then(post => {
-        //    return res.status(204).end();
-        //})
         .catch(err => {
             console.error(err);
             res.status(500).json({error: 'Oops. Something went wrong.'});
