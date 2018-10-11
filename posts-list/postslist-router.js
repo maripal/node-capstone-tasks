@@ -11,7 +11,7 @@ const { GoalPost } = require('./postslist-models');
 
 //set storage engine
 const storage = multer.diskStorage({
-    destination: './public/images/',
+    destination: './public/images',
     filename: function(req, file, callback) {
         callback(null, `${file.fieldname}-${Date.now()}-${path.extname(file.originalname)}`);
     }
@@ -73,7 +73,7 @@ router.post('/', jwtAuth, (req, res) => {
 
 
 // PUT endpoint
-router.put('/:id', jwtAuth, upload.array('myImage', 12), (req, res) => {
+router.put('/:id', jwtAuth, upload.single('myImage'), (req, res) => {
     const requiredField = 'text';
     if(!(requiredField in req.body)) {
         const message = `Missing required \`${requiredField}\` in request body`;
