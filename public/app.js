@@ -47,6 +47,8 @@ function dropDown() {
     })
 }
 
+
+
 //function to open login form
 function openLoginForm() {
     $('#landing-login-button').on('click', function() {
@@ -153,9 +155,11 @@ function homepageRedirect() {
             url: '/auth/refresh/',
             headers: {Authorization: `Bearer ${token}`},
             success: function(data) {
+                $('div.nav-options').toggle();
                 $('.postSection').prop('hidden', false);
                 $('#openPostSection').prop('hidden', true);
                 //$('.postList').toggle();
+                //$('.deletedPostMessage').remove();
                 $('.postsListSection').toggle();
                 $('#home').hide();
                 
@@ -231,6 +235,13 @@ function openSinglePost() {
                 headers: {Authorization: `Bearer ${token}`},
                 success: function(data) {
                     $('#openPostSection').prop('hidden', false);
+
+                    //for when a post is previously deleted
+                    $('.deletedPostMessage').prop('hidden', true);
+                    $('.postOptions').show();
+                    $('#single-post-section').show();
+                    $('#noteListSection').show();
+                    $('.imagesCollectionSection').show();
                     
                     //this clears out any html in single-post-section, so it doesn't keep appending a post
                     $('#single-post-section').html("");
@@ -375,17 +386,28 @@ function submitImage() {
         let postId = $('#openPostSection').find('.card-post');
         postId = $(postId).data('card-post-id');
         let postText = $('#openPostSection').find('.card-post').html();
-        let updatedPost = {text: postText, id: postId, images: imageVal};
+        let imageInfo = $('#myImage')[0].files;
+        let dataF = new FormData();
+        console.log('This is the image info: ' + imageInfo)
+        dataF.append('text', postText)
+        dataF.append('id', postId);
+        dataF.append('images', imageInfo)
+        console.log(dataF);
+        //let updatedPost = {text: postText, id: postId, images: imageVal};
 
         $.ajax({
             type: 'PUT',
             url: `/posts/${postId}`,
-            data: updatedPost,
+            data: dataF,
+            //contentType: false,
+            processData: false, 
+            cache: false,
             headers: {Authorization: `Bearer ${token}`},
             success: function(data) {
-                $('#imageList').append(`<li class="imageItem">${imageVal}</li>`);
-                $('.imageUploadSection').prop('hidden', true);
-                $('.imagesModalBox').toggle();
+                //$('#imageList').append(`<li class="imageItem">${imageVal}</li>`);
+                //$('.imageUploadSection').prop('hidden', true);
+                //$('.imagesModalBox').toggle();
+                console.log("SUCCESS! Image was uploaded!")
             },
             error: function(request, error) {
                 console.log("Request: " + JSON.stringify(request));
@@ -393,6 +415,13 @@ function submitImage() {
         });
     });
 }
+//let imageInfo = "";
+
+//function image() {
+//    $('#myImage').change(function() {
+//        imageInfo = $(this)[0].files;
+//    })
+//}
 
 // function to make delete button work
 function deleteButton() {
@@ -414,8 +443,11 @@ function deleteButton() {
                 $(`.card-post[data-card-post-id=${deletedPostId}]`).parent().remove();
 
                 //display message to show post has been deleted
-                $('#openPostSection').html('<div class="deletedPostMessage"><h2>Post has been deleted.</h2></div>');
-                
+                $('#openPostSection').prepend('<div class="deletedPostMessage"><h2>Post has been deleted.</h2></div>');
+                $('.postOptions').hide();
+                $('#single-post-section').hide();
+                $('#noteListSection').hide();
+                $('.imagesCollectionSection').hide();
             },
             error: function(request, error) {
                 console.log("Request: " + JSON.stringify(request));
@@ -488,3 +520,4 @@ $(openSignUpForm);
 $(submitSignUp);
 $(logOutButton);
 $(homepageRedirect);
+//$(image);
