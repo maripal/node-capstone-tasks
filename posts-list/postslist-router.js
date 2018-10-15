@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const multer = require('multer');
+const uploadOne = multer().single('avatar');
 const passport = require('passport');
 const mongoose = require('mongoose');
 
@@ -11,9 +12,13 @@ const { GoalPost } = require('./postslist-models');
 
 //set storage engine
 const storage = multer.diskStorage({
-    destination: './public/images',
+    destination: function (req, file, cb) {
+        cb(null, './public/images')
+      },
     filename: function(req, file, callback) {
-        callback(null, `${file.fieldname}-${Date.now()}-${path.extname(file.originalname)}`);
+        console.log(file);
+        let fileExtension = file.originalname.split('.');
+        callback(null, `${file.fieldname}-${Date.now()}.${fileExtension[1]}`);
     }
 })
 
@@ -71,6 +76,18 @@ router.post('/', jwtAuth, (req, res) => {
         });
 })
 
+router.post('/test', upload.single('avatar'), (req, res) => {
+    console.log("hello there");
+    uploadOne(req, res, function (err) {
+          if (err) {
+          // An unknown error occurred when uploading.
+          console.log(err);
+        }
+    
+        // Everything went fine.
+        //send back response status of success.
+      })
+})
 
 // PUT endpoint
 router.put('/:id', jwtAuth, upload.single('myImage'), (req, res) => {
@@ -99,9 +116,8 @@ router.put('/:id', jwtAuth, upload.single('myImage'), (req, res) => {
 
     //let images = []
     //if (req.file) {
-    //    updated['images'] = {path : req.file.path};
+    //   updated['images'] = {path : req.file.path};
     //}
-    //console.log("image info: " + images);
 
     GoalPost.findById(req.params.id)
         .then(post => {
@@ -110,8 +126,8 @@ router.put('/:id', jwtAuth, upload.single('myImage'), (req, res) => {
                 post.notes.push(updated.notes);
                 updated.notes = post.notes;
                 console.log(updated);
-            } 
-        
+            }
+
         GoalPost.findByIdAndUpdate(req.body.id, {$set: updated}, {new: true})
         .then(post => {
             res.status(204).end();
