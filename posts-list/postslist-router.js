@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const multer = require('multer');
-const uploadOne = multer().single('avatar');
+const uploadOne = multer().single('myImage');
 const passport = require('passport');
 const mongoose = require('mongoose');
 
@@ -83,10 +83,19 @@ router.post('/test', upload.single('avatar'), (req, res) => {
           // An unknown error occurred when uploading.
           console.log(err);
         }
-    
+        console.log(req.file);
         // Everything went fine.
         //send back response status of success.
       })
+})
+
+router.put('/test/:id', upload.single('avatar'), (req, res) => {
+    uploadOne(req, res, function(err) {
+        if (err) {
+            console.log(err);
+        }
+        //send back response status of success.
+    })
 })
 
 // PUT endpoint
@@ -100,7 +109,7 @@ router.put('/:id', jwtAuth, upload.single('myImage'), (req, res) => {
     if (req.params.id !== req.body.id) {
         const message = `Request path id (${
           req.params.id
-        }) and request body id ``(${req.body.id}) must match`;
+        }) and request body id (${req.body.id}) must match`;
         console.error(message);
         return res.status(400).send(message);
     }
@@ -116,7 +125,8 @@ router.put('/:id', jwtAuth, upload.single('myImage'), (req, res) => {
 
     //let images = []
     //if (req.file) {
-    //   updated['images'] = {path : req.file.path};
+    //  const image = req.file.myImage;
+    //  updated['images'] = image;
     //}
 
     GoalPost.findById(req.params.id)

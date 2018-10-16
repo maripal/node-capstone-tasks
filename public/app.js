@@ -377,7 +377,7 @@ function addImageForm() {
 
 //function to add image to a single post
 function submitImage() {
-    $('.js-image-upload-form').submit(function(event) {
+    $('.submitImageButton').on('click', function(event) {
         event.preventDefault();
         let token = sessionStorage.Bearer;
         let targetInput = $(event.currentTarget).find('#myImage');
@@ -386,25 +386,27 @@ function submitImage() {
         let postId = $('#openPostSection').find('.card-post');
         postId = $(postId).data('card-post-id');
         let postText = $('#openPostSection').find('.card-post').html();
+
+        //add image file obj
         let imageInfo = $('#myImage')[0].files;
+        let imgfile = imageInfo.item(0);
+        console.log(imgfile);
+
         let dataF = new FormData();
-        console.log('This is the image info: ' + imageInfo)
         dataF.append('text', postText)
         dataF.append('id', postId);
-        dataF.append('images', imageInfo)
-        console.log(dataF);
-        //let updatedPost = {text: postText, id: postId, images: imageVal};
-
+        dataF.append('myImage', imgfile);
+        
         $.ajax({
             type: 'PUT',
             url: `/posts/${postId}`,
             data: dataF,
-            //contentType: false,
-            processData: false, 
+            contentType: false,
+            processData: false,
             cache: false,
             headers: {Authorization: `Bearer ${token}`},
             success: function(data) {
-                //$('#imageList').append(`<li class="imageItem">${imageVal}</li>`);
+                //$('#imageList').append(`<li class="imageItem">${data.name}</li>`);
                 //$('.imageUploadSection').prop('hidden', true);
                 //$('.imagesModalBox').toggle();
                 console.log("SUCCESS! Image was uploaded!")
@@ -418,8 +420,11 @@ function submitImage() {
 //let imageInfo = "";
 
 //function image() {
-//    $('#myImage').change(function() {
+//    $('#myImage').on('change', function() {
 //        imageInfo = $(this)[0].files;
+//        let formdata = new FormData();
+//        formdata.append('myImage', imageInfo);
+//        console.log(imageInfo);
 //    })
 //}
 
