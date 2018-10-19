@@ -7,6 +7,8 @@ const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 const { User } = require('../users/users-models');
 const { JWT_SECRET } = require('../config');
 
+require('dotenv').config();
+
 const localStrategy = new LocalStrategy((username, password, callback) => {
     let user;
     User.findOne({username: username})
@@ -38,7 +40,7 @@ const localStrategy = new LocalStrategy((username, password, callback) => {
 });
 
 const jwtStrategy = new JwtStrategy({
-    secretOrKey: JWT_SECRET,
+    secretOrKey: process.env.JWT_SECRET,
     jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
     algorithms: ['HS256']
 },
