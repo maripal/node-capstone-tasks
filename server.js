@@ -47,11 +47,11 @@ passport.use(jwtStrategy);
 
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
-app.get('/protected', jwtAuth, (req, res) => {
+/*app.get('/protected', jwtAuth, (req, res) => {
   return res.json({
     data: 'rosebud'
   });
-});
+});*/
 
 app.use('*', (req, res) => {
     res.status(404).json({message: 'Not Found'});
