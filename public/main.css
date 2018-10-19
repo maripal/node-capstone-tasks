@@ -390,6 +390,10 @@ div.nav-options a {
     margin-bottom: 20px;
 }
 
+.postImage {
+    width: 100px;
+}
+
 /*#myImage {
     display: block;
     width: 100%;
