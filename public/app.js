@@ -257,6 +257,12 @@ function openSinglePost() {
                     for (let i = 0; i < data.notes.length; i++) {
                     $('#noteList').append(`<li class="noteListItem">${data.notes[i]}</li>`);
                     }
+
+                    $('#imageList').html("")
+
+                    for (let i = 0; i < data.images.length; i++) {
+                        $('#imageList').append(`<li class="imageItem"><img src="images/${data.images[i].path}" class="postImage" alt="image"></li>`);
+                    }
                     //add this class if post is checked off (completed)
                     if (data.completed === true) {
                         $('#openPostSection').find('.card-post').addClass('completedCardPost');
@@ -406,10 +412,18 @@ function submitImage() {
             cache: false,
             headers: {Authorization: `Bearer ${token}`},
             success: function(data) {
-                //$('#imageList').append(`<li class="imageItem">${data.name}</li>`);
-                //$('.imageUploadSection').prop('hidden', true);
-                //$('.imagesModalBox').toggle();
-                console.log("SUCCESS! Image was uploaded!")
+                //display images
+                let imagePath = "";
+                for (let i = 0; i < data.images.length; i++) {
+                    //variable to save uploaded image path
+                    imagePath = data.images[i].path;
+                }
+                //append uploaded image to display on front-end using the imagePath variable
+                $(`<li class="imageItem"><img src="images/${imagePath}" class="postImage" alt="image"></li>`).appendTo('#imageList');
+                
+                //To hide image upload form div
+                $('.imageUploadSection').prop('hidden', true);
+                $('.imagesModalBox').toggle();
             },
             error: function(request, error) {
                 console.log("Request: " + JSON.stringify(request));
@@ -417,16 +431,6 @@ function submitImage() {
         });
     });
 }
-//let imageInfo = "";
-
-//function image() {
-//    $('#myImage').on('change', function() {
-//        imageInfo = $(this)[0].files;
-//        let formdata = new FormData();
-//        formdata.append('myImage', imageInfo);
-//        console.log(imageInfo);
-//    })
-//}
 
 // function to make delete button work
 function deleteButton() {
@@ -444,8 +448,12 @@ function deleteButton() {
             headers: {Authorization: `Bearer ${token}`},
             success: function() {
                 $('#openPostSection').find(`.card-post[data-card-post-id=${deletedPostId}]`).remove();
+                $('#noteList').children().remove();
+                $('#imageList').children().remove();
+
                 //remove item from post list
                 $(`.card-post[data-card-post-id=${deletedPostId}]`).parent().remove();
+
 
                 //display message to show post has been deleted
                 $('#openPostSection').prepend('<div class="deletedPostMessage"><h2>Post has been deleted.</h2></div>');
@@ -502,11 +510,6 @@ function logOutButton() {
     })
 }
 
-//function getAndDisplayPosts() {
-//    getPosts(displayPosts);
-//}
-
-//$(getAndDisplayPosts);
 $(dropDown);
 $(createAPost);
 $(submitNewPostButton);
@@ -525,4 +528,3 @@ $(openSignUpForm);
 $(submitSignUp);
 $(logOutButton);
 $(homepageRedirect);
-//$(image);

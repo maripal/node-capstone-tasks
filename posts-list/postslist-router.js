@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const multer = require('multer');
-const uploadOne = multer().single('myImage');
+//const uploadOne = multer().single('myImage');
 const passport = require('passport');
 const mongoose = require('mongoose');
 
@@ -18,6 +18,7 @@ const storage = multer.diskStorage({
     filename: function(req, file, callback) {
         console.log(file);
         let fileExtension = file.originalname.split('.');
+        console.log(`${file.fieldname}-${Date.now()}.${fileExtension[1]}`);
         callback(null, `${file.fieldname}-${Date.now()}.${fileExtension[1]}`);
     }
 })
@@ -76,28 +77,6 @@ router.post('/', jwtAuth, (req, res) => {
         });
 })
 
-router.post('/test', upload.single('avatar'), (req, res) => {
-    console.log("hello there");
-    uploadOne(req, res, function (err) {
-          if (err) {
-          // An unknown error occurred when uploading.
-          console.log(err);
-        }
-        console.log(req.file);
-        // Everything went fine.
-        //send back response status of success.
-      })
-})
-
-router.put('/test/:id', upload.single('avatar'), (req, res) => {
-    uploadOne(req, res, function(err) {
-        if (err) {
-            console.log(err);
-        }
-        //send back response status of success.
-    })
-})
-
 // PUT endpoint
 router.put('/:id', jwtAuth, upload.single('myImage'), (req, res) => {
     const requiredField = 'text';
@@ -123,24 +102,29 @@ router.put('/:id', jwtAuth, upload.single('myImage'), (req, res) => {
         }
     });
 
-    //let images = []
-    //if (req.file) {
-    //  const image = req.file.myImage;
-    //  updated['images'] = image;
-    //}
-
+    if (req.file) {
+    updated.images = {path : req.file.filename};
+    console.log(typeof (updated.images));
+    }
+    
     GoalPost.findById(req.params.id)
         .then(post => {
             console.log(updated.notes);
             if (post.notes.length >= 1 && updated.notes != undefined) {
                 post.notes.push(updated.notes);
                 updated.notes = post.notes;
-                console.log(updated);
+            }
+
+            if (post.images.length >= 1 && updated.images !== undefined) {
+                console.log(post.images);
+                console.log(updated.images);
+                post.images.push(updated.images);
+                updated.images = post.images;
             }
 
         GoalPost.findByIdAndUpdate(req.body.id, {$set: updated}, {new: true})
         .then(post => {
-            res.status(204).end();
+            res.status(201).json(post.serialize());
         })
         .catch(err => {
             console.error(err);
