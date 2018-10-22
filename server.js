@@ -1,6 +1,6 @@
 "use strict";
 
-require('dotenv').config();
+require('dotenv').load();
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
