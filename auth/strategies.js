@@ -2,7 +2,9 @@
 
 const { Strategy: LocalStrategy } = require('passport-local');
 
-const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
+//const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
+let JwtStrategy = require('passport-jwt').Strategy,
+    ExtractJwt = require('passport-jwt').ExtractJwt;
 
 const { User } = require('../users/users-models');
 const { JWT_SECRET } = require('../config');
@@ -46,5 +48,6 @@ const jwtStrategy = new JwtStrategy({
         done(null, payload.user);
     }
 );
-
+console.log(JWT_SECRET);
+console.log("this is jwtstrategy: " + jwtStrategy);
 module.exports = { localStrategy, jwtStrategy };
