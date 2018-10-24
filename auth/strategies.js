@@ -46,6 +46,7 @@ const jwtStrategy = new JwtStrategy({
         done(null, payload.user);
     }
 );
+
 console.log(JWT_SECRET);
 console.log("this is jwtstrategy: " + jwtStrategy);
 module.exports = { localStrategy, jwtStrategy };
