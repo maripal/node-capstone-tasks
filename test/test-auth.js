@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const {app, runServer, closeServer} = require('../server');
 const {User} = require('../users/users-models');
 const {JWT_SECRET, TEST_DATABASE_URL} = require('../config');
+const JWT_SECRET = process.env.JWT_SECRET || 'whatever';
 
 const expect = chai.expect;
 
