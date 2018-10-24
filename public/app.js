@@ -392,7 +392,7 @@ function submitImage() {
         let postId = $('#openPostSection').find('.card-post');
         postId = $(postId).data('card-post-id');
         let postText = $('#openPostSection').find('.card-post').html();
-        console.log(postText)
+    
 
         //add image file obj
         let imageInfo = $('#myImage')[0].files;
