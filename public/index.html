@@ -6,36 +6,227 @@
 
         <title>Node App</title>
         <link rel="stylesheet" type="text/css" href="main.css">
+        <link rel="stylesheet" type="text/css" href="grid.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
     </head>
 
     <body>
+        <!-- Landing Page -->
+        <!-- Nav Bar-->
+        <nav role="navigation">
+            <div class="row">
+                <div class="col-12">
+                    <div class="nav-menu">
+                        <h1>App Name</h1>
+                    </div>
+                </div>
+            </div>
 
-        <!-- Post List Section-->
-        <main>
-            <div class="postsListSection">
-                <h1>Bucket/Goal List</h1>
-                <ul class="postList">
-                    
-                </ul>
+            <div class="row menuOptions" hidden>
+                <div class="col-12">
+                        <button class="dropdownButton">Menu<i class="down"></i></button>
+                    <div class="nav-options" hidden>
+                        <a href="#" id="home">Home</a>
+                        <a href="#" id="logout">Log Out</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Button to create a post -->
+        <section role="region" class="createButtonSection" hidden>
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="usernameGreetingHeader"></h1>
+                    <div class="buttonsSection">
+                        <button class="create" type="button">Create Post</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <main role="main" aria-live="assertive" class="landingPageSection">
+            <div class="row">
+                <div class="col-12">
+                    <div class="landing-page-info">
+                        <h1 class="page-description">Where a bucket list and vision board come together.</h1>
+                        <button id="landing-login-button">Log In</button>
+                        <button id="landing-signup-button">Sign Up</button>
+                    </div>
+                </div>
             </div>
         </main>
 
-        <!-- Buttons for different task actions -->
-        <div class="buttonsSection">
-            <button class="create" type="button">Create Post</button>
-            <button class="delete" type="button">Delete Post</button>
-            <button class="checkOff" type="button">Check Off Post</button>
-        </div>
+        <!-- Login Form-->
+        <section role="region" class="loginFormSection" hidden>
+            <div class="row">
+                <div class="col-12">
+                    <div class="login-section">
+                        <form action="#" class="login-form">
+                            <legend id="login-title">Login</legend>
+                            <label for="username" aria-label="Type your username">
+                                <input type="text" id="username" name="username" placeholder="Username" required>
+                            </label>
+                            <label for="user-password" aria-label="Type in your password">
+                                <input type="password" id="user-password" name="user-password" placeholder="Password" required>
+                            </label>
+                            <button type="submit" id="login-submit-button">Login</button>
+                        </form>
 
-        <!-- Pop up form to create a new task -->
-        <div class="createNewPostPopUp">
-            <form action="#" class="js-create-new-post">
-                <label for="js-new-post-input">
-                    <input type="text" id="js-new-post-input" name="js-new-post-input" placeholder="Enter new goal" required>
-                    <button class="submitPost" type="submit">Submit</button>
-                </label>
-            </form>
-        </div>
+                        <p class="userAccountOptions">Don't have an account? <a href="#" class="signUpView">Sign up here.</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SignUp Form -->
+        <section role="region" class="signupFormSection" hidden>
+            <div class="row">
+                <div class="col-12">
+                    <div class="signup-section">
+                        <form action="#" class="signup-form">
+                            <legend id="signup-title">Sign Up</legend>
+                            <label for="user-firstname" aria-label="Type in your first name">
+                                <input type="text" id="user-firstname" name="user-firstname" placeholder="First Name" required>
+                            </label>
+                            <label for="user-lastname" aria-label="Type in your last name">
+                                <input type="text" id="user-lastname" name="user-lastname" placeholder="Last Name" required>
+                            </label>
+                            <label for="user-username" aria-label="Type in a username">
+                                <input type="text" id="user-username" name="user-username" placeholder="Username" required>
+                            </label>
+                            <label for="user-pass" aria-label="Type in a password">
+                                <input type="password" id="user-pass" name="user-pass" placeholder="Password" required>
+                            </label>
+                            <button type="submit" id="signup-button">Sign Up</button>
+                        </form>
+
+                        <p class="userAccountOptions">Already have an account? <a href="#" class="loginView">Log in here.</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal pop up form to create a new task -->
+        <section role="region" class="createPostSection" hidden>
+            <div class="row">
+                <div class="col-12">
+                    <div class="postModalBox">
+                    <div class="createNewPostPopUp">
+                            <i class="fa fa-times-circle closeWindow" id="close-create-post" aria-hidden="true"></i>
+                        <form action="#" class="js-create-new-post">                            
+                            <label for="js-new-post-input" aria-label="Type in a goal, to create a new post">
+                                <input type="text" id="js-new-post-input" name="js-new-post-input" placeholder="Enter new goal" required>
+                            </label>
+                            <button class="submitPost" type="submit">Submit</button>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Post List Section-->
+        <section role="region" class="postSection" hidden>
+            <div class="row">
+                <div class="col-4">
+                    <div class="postsListSection" >
+                        <ul class="postList">
+
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-8" id="openPostSection" hidden>
+
+                        <div class="postOptions">
+                            <button class="delete" type="button" aria-label="Click to delete post"><i class="fas fa-trash"></i></button>
+                            <button class="update" type="button" aria-label="Click to update/edit post"><i class="fas fa-pen-square"></i></i></button>
+                            <button class="checkOff" type="button" aria-label="Click to check off post as completed"><i class="fas fa-check"></i></button>
+                        </div>
+
+                    <div id="single-post-section">
+                        
+                        
+                    </div>
+
+                    <div id="noteListSection">
+                        <div class="notesHeader">
+                            <span id="notesSpan">Notes:</span>
+                            <button class="postAddNote" type="button" aria-label="Click to add a note"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <ul id="noteList">
+
+                        </ul>
+                    </div>
+
+                    <div class="imagesCollectionSection">
+                        <div class="imagesHeader">
+                            <span id="imagesSpan">Images:</span>
+                            <button class="postAddImage" type="button" aria-label="Click to add an image"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <ul id="imageList">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="editPostModalBox" >
+                <div class="editPopUp">
+                        <i class="fa fa-times-circle closeEditWindow" aria-hidden="true"></i>
+                    <form action="#" class="editPostForm">
+                        <label for="js-edit-post" aria-label="Type to edit post">
+                            <input type="text" id="js-edit-post" name="js-edit-post" placeholder="Edit goal..." required>
+                        </label>
+                        <button type="submit" class="submitEditedPost">Submit</button>
+                    </form>
+                </div>
+            </div>
+
+        <!-- Notes modal pop up for a certain post -->
+        <section role="region" class="addNoteSection" aria-live="assertive" hidden>
+            <div class="row">
+                <div class="col-12">
+                    <div class="notesModalBox">
+                        <div id="addNotesPopUp">
+                            <i class="fa fa-times-circle closeNoteWindow" aria-hidden="true"></i>
+                            <form action="#" class="js-add-note">
+                                <legend id="noteLegend">Add a note...</legend>
+                                <label for="js-note-input" aria-label="Type a note">
+                                    <input type="text" id="js-note-input" name="js-note-input" required>
+                                </label>
+                                <button type="submit" class="submitNote">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Image Upload Form-->
+        <section role="region" class="imageUploadSection" hidden>
+            <div class="row">
+                <div class="col-12">
+                    <div class="imagesModalBox">
+                    <div class="imageUploadContainer">
+                        <i class="fa fa-times-circle closeImageWindow" aria-hidden="true"></i>
+                        <form action="#" method="POST" class="js-image-upload-form" enctype="multipart/form-data">
+                            <label for="myImage" class="imageUploadButton" aria-label="Upload an image">
+                                <div id="uploadImageTitle">Upload Image</div>
+                                <input type="file" id="myImage" name="myImage">
+                            </label>
+                            <button type="submit" class="submitImageButton">Upload<i class="fas fa-upload uploadIcon"></i></button>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
         <script
         src="https://code.jquery.com/jquery-3.3.1.min.js"

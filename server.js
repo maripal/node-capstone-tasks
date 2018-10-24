@@ -1,6 +1,7 @@
 "use strict";
 
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') {require('dotenv').config()}
+
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
@@ -23,6 +24,9 @@ const { localStrategy, jwtStrategy } = require('./auth/strategies');
 app.use(morgan('common'));
 app.use(express.static('public'));
 app.use(express.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(bodyParser.json());
 app.use('/posts', router);
 app.use('/users', userRouter);
@@ -44,11 +48,11 @@ passport.use(jwtStrategy);
 
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
-app.get('/protected', jwtAuth, (req, res) => {
+/*app.get('/protected', jwtAuth, (req, res) => {
   return res.json({
     data: 'rosebud'
   });
-});
+});*/
 
 app.use('*', (req, res) => {
     res.status(404).json({message: 'Not Found'});
@@ -58,26 +62,6 @@ app.use('*', (req, res) => {
 app.get('/', (req, res) => {
     res.status(200).res.sendFile(__dirname + "/views/index.html");
 });
-
-
-/*app.post('/posts', (req, res) => {
-    const requiredFields = 'text';
-    if(!(requiredFields in req.body)) {
-        const message = `Missing \`${requiredFields}\` in request body`;
-        console.error(message);
-        return res.status(400).send(message);
-    }
-
-    GoalPost
-    .create({
-        text: req.body.text
-    })
-    .then(post => res.status(201).json(post.serialize()))
-    .catch(err => {
-        console.error(err);
-        res.status(500).json({error: 'Oops. Something went wrong.'});
-    });
-})*/
 
 
 let server;

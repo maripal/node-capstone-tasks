@@ -3,14 +3,15 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-
 const goalPostSchema = mongoose.Schema({
-    //user : {type : mongoose.Schema.Types.ObjectId, ref:'User'},
+    user : {type: mongoose.Schema.Types.ObjectId, ref: 'users'},
     text : {type: String, required: true},
-    notes : {type: String},
-    images : {type: String},
+    notes : [{type: String}],
+    images : [{ path: 
+                {type: String}
+            }],
     created : {type: Date, default: Date.now},
-    completed: Boolean
+    completed: Boolean,
 }, 
     // to hide the '__v' property
     {versionKey: false});
@@ -23,7 +24,7 @@ goalPostSchema.methods.serialize = function() {
         notes: this.notes,
         images: this.images,
         created: this.created,
-        completed: this.completed
+        completed: this.completed,
     };
 };
 
