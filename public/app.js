@@ -42,8 +42,8 @@ function displayPosts(data) {
 //function for dropdown menu
 function dropDown() {
     $('.dropdownButton').on('click', function() {
-        $('div.nav-options').prop('hidden', false);
         $('div.nav-options').toggle();
+        $('div.nav-options').prop('hidden', false);
     })
 }
 
