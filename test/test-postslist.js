@@ -61,11 +61,11 @@ describe('Posts API', function() {
     describe('GET endpoint', function() {
 
         it('should return all posts', function() {
-            //let res;
+            let res;
             return chai.request(app)
             .get('/posts')
-            .then(function(res) {
-                //res = _res;
+            .then(function(_res) {
+                res = _res;
                 expect(res).to.have.status(200);
                 expect(res).to.be.json;
 
@@ -73,9 +73,9 @@ describe('Posts API', function() {
                 expect(res.body).to.have.lengthOf.at.least(1);
                 return GoalPost.count();
             })
-            /*.then(function(count) {
+            .then(function(count) {
                 expect(res.body).to.have.lengthOf(count);
-            });*/
+            });
         });
 
         it('should return all posts with right fields', function() {
