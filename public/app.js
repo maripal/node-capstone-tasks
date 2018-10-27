@@ -27,7 +27,7 @@ function displayPosts(data) {
             $('.postSection').prop('hidden', false);
         }  else {
         $('.postList').append(
-            `<li><div class="card-post" data-card-post-id="${data[i]._id}"> ${data[i].text}</div></li>`
+            `<button class="postButton" type="button"><li><div class="card-post" data-card-post-id="${data[i]._id}"> ${data[i].text}</div></li></button>`
         );
     }
     
@@ -56,9 +56,16 @@ function openLoginForm() {
         $('.landingPageSection').toggle();
     })
 
+    //open login view from signup section
     $('.loginView').on('click', function() {
         $('.loginFormSection').prop('hidden', false);
         $('.signupFormSection').prop('hidden', true);
+    })
+
+    //open login view after signing up
+    $('.loginForm').on('click', function() {
+        $('.loginFormSection').prop('hidden', false);
+        $('.signupGreeting').prop('hidden', true);
     })
 }
 
@@ -83,11 +90,11 @@ function submitLogin() {
                 let jwt = data.authToken;
                 sessionStorage.setItem('Bearer', jwt);
                 $('.loginFormSection').prop('hidden', true);
-                //getPosts(sessionStorage.getItem('username'));
                 getPosts(jwt);
                 $('.usernameGreetingHeader').append(`Hello, ${user}!`);
                 $('.menuOptions').prop('hidden', false);
                 $('#home').hide();
+                $('.createButtonSection').prop('hidden', false);
             },
             error: function(request, error) {
                 alert('Oops, username/password is incorrect.');
@@ -131,13 +138,13 @@ function submitSignUp() {
             dataType: 'json',
             data: signUpInfo,
             success: function() {
-                //localStorage.setItem('authToken', response.token);
-                //window.initialToken = response.token;
-                
-                $('.signup-section').html('<div class="signupGreeting">Welcome!</div>');
+                $('.signup-section').html('<div class="signupGreeting"><h1>Welcome! You can now log in.</h1></div>');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 2000);
             },
             error: function(request, error) {
-                console.log("Request: " + JSON.stringify(request));
+                //console.log("Request: " + JSON.stringify(request));
                 if (request.responseJSON.location === username) {
                     alert("username already exists");
                 }
@@ -158,8 +165,6 @@ function homepageRedirect() {
                 $('div.nav-options').toggle();
                 $('.postSection').prop('hidden', false);
                 $('#openPostSection').prop('hidden', true);
-                //$('.postList').toggle();
-                //$('.deletedPostMessage').remove();
                 $('.postsListSection').toggle();
                 $('#home').hide();
                 
@@ -206,7 +211,7 @@ function submitNewPostButton(data) {
             dataType: 'json',
             headers: {Authorization: `Bearer ${token}`},
             success: function(data) {
-                $('.postList').append(`<li><div class="card-post" data-card-post-id="${data.id}"> ${newPost} </div></li>`);
+                $('.postList').append(`<button class="postButton" type="button"><li><div class="card-post" data-card-post-id="${data.id}"> ${newPost} </div></li></button>`);
             },
             error: function(request, error) {
                 console.log("Request: " + JSON.stringify(request));
@@ -221,13 +226,12 @@ function submitNewPostButton(data) {
 
 //open single post that was clicked on
 function openSinglePost() {
-    $('.postList').on('click', '.card-post', function() {
+    $('.postList').on('click', '.postButton', function() {
         let token = sessionStorage.Bearer;
-        let clickedPost = $(this);
+        let clickedPost = $(this).find('.card-post');
         let postId = clickedPost;
         postId = $(postId).data("card-post-id");
     
-            //$('.imageUploadSection').prop('hidden', false);
             $.ajax({
                 type: 'GET',
                 url:`/posts/${postId}`,
@@ -261,7 +265,7 @@ function openSinglePost() {
                     $('#imageList').html("")
 
                     for (let i = 0; i < data.images.length; i++) {
-                        $('#imageList').append(`<li class="imageItem"><img src="images/${data.images[i].path}" class="postImage" alt="image"></li>`);
+                        $('#imageList').append(`<div class="imageDiv"><li class="imageItem"><img src="images/${data.images[i].path}" class="postImage" alt="image"></li></div>`);
                     }
                     //add this class if post is checked off (completed)
                     if (data.completed === true) {
@@ -289,6 +293,7 @@ function editPost() {
         });
     });
 
+    //hide edit window when you click x
     $('.closeEditWindow').on('click', function() {
         $('.editPostModalBox').hide();
         $('.editPopUp').hide();
@@ -392,12 +397,10 @@ function submitImage() {
         let postId = $('#openPostSection').find('.card-post');
         postId = $(postId).data('card-post-id');
         let postText = $('#openPostSection').find('.card-post').html();
-        console.log(postText);
 
         //add image file obj
         let imageInfo = $('#myImage')[0].files;
         let imgfile = imageInfo.item(0);
-        console.log(imgfile);
 
         let dataF = new FormData();
         dataF.append('text', postText)
@@ -420,14 +423,14 @@ function submitImage() {
                     imagePath = data.images[i].path;
                 }
                 //append uploaded image to display on front-end using the imagePath variable
-                $(`<li class="imageItem"><img src="images/${imagePath}" class="postImage" alt="image"></li>`).appendTo('#imageList');
+                $(`<div class="imageDiv"><li class="imageItem"><img src="images/${imagePath}" class="postImage" alt="image"></li></div>`).appendTo('#imageList');
                 
                 //To hide image upload form div
                 $('.imageUploadSection').prop('hidden', true);
                 $('.imagesModalBox').toggle();
             },
             error: function(request, error) {
-                console.log("Request: " + JSON.stringify(request));
+                alert('Only images are allowed!')
             }
         });
     });
@@ -436,8 +439,6 @@ function submitImage() {
 // function to make delete button work
 function deleteButton() {
     $('.delete').on('click', function() {
-        //$(this).toggleClass('deleting');
-        //$('li').toggleClass('deleting');
         let token = sessionStorage.Bearer;
         let deletedPostId = $('#openPostSection').find('.card-post');
         deletedPostId = $(deletedPostId).data("card-post-id");
@@ -453,7 +454,7 @@ function deleteButton() {
                 $('#imageList').children().remove();
 
                 //remove item from post list
-                $(`.card-post[data-card-post-id=${deletedPostId}]`).parent().remove();
+                $(`.card-post[data-card-post-id=${deletedPostId}]`).parent().parent().remove();
 
 
                 //display message to show post has been deleted
@@ -477,17 +478,13 @@ function checkOffButton() {
         postId = $(postId).data('card-post-id');
         let postText = $('#openPostSection').find('.card-post').html();
         let updatedPost = {text: postText, id: postId, completed: true};
-        console.log(updatedPost);
-        console.log('this is the completed post id : ' + postId);
+
         $.ajax({
             type: 'PUT',
             url: `/posts/${postId}`,
             data: updatedPost,
             headers: {Authorization: `Bearer ${token}`},
             success: function() {
-                /* if (updatedPost.completed === true) {
-                    postId = $('#openPostSection').find('.card-post').addClass('completedCardPost');
-                } */
 
                 //is it ok to do this instead of the conditional statement above??
                 $('#openPostSection').find(`.card-post[data-card-post-id=${postId}]`).addClass('completedCardPost');
@@ -503,7 +500,7 @@ function checkOffButton() {
 function logOutButton() {
     $('#logout').on('click', function() {
         event.preventDefault();
-        console.log('logout button clicked');
+        
         sessionStorage.setItem('Bearer', "");
         sessionStorage.setItem('user', "");
         sessionStorage.clear();
@@ -511,21 +508,25 @@ function logOutButton() {
     })
 }
 
-$(dropDown);
-$(createAPost);
-$(submitNewPostButton);
-$(deleteButton);
-$(checkOffButton);
-$(addANote);
-$(submitNoteButton);
-$(openSinglePost);
-$(editPost);
-$(updatedPostSubmit);
-$(addImageForm);
-$(submitImage);
-$(openLoginForm);
-$(submitLogin);
-$(openSignUpForm);
-$(submitSignUp);
-$(logOutButton);
-$(homepageRedirect);
+function handleEvents() {
+    dropDown();
+    createAPost();
+    submitNewPostButton();
+    deleteButton();
+    checkOffButton();
+    addANote();
+    submitNoteButton();
+    openSinglePost();
+    editPost();
+    updatedPostSubmit();
+    addImageForm();
+    submitImage();
+    openLoginForm();
+    submitLogin();
+    openSignUpForm();
+    submitSignUp();
+    logOutButton();
+    homepageRedirect();
+}
+
+$(handleEvents);

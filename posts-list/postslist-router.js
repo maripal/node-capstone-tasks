@@ -25,7 +25,18 @@ const storage = multer.diskStorage({
 
 const jwtAuth = passport.authenticate('jwt', {session: false});
 //initialize image upload
-const upload = multer({storage : storage});
+const upload = multer({
+    storage : storage,
+    fileFilter: function (req, file, callback) {
+        let fileSplit = file.originalname.split('.');
+        let ext = `.${fileSplit[1]}`;
+        console.log("this is ext" + ext)
+        if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+            return callback(new Error('Only images are allowed'))
+        }
+        callback(null, true)
+    },
+});
 
 // GET endpoint
 router.get('/', jwtAuth, (req, res) => {
