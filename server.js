@@ -48,12 +48,6 @@ passport.use(jwtStrategy);
 
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
-/*app.get('/protected', jwtAuth, (req, res) => {
-  return res.json({
-    data: 'rosebud'
-  });
-});*/
-
 app.use('*', (req, res) => {
     res.status(404).json({message: 'Not Found'});
 })
@@ -67,7 +61,7 @@ app.get('/', (req, res) => {
 let server;
 
 // function that connects to database, and starts server
-function runServer(databaseUrl, port=PORT) {
+function runServer(databaseUrl = DATABASE_URL, port=PORT) {
     return new Promise((resolve, reject) => {
         mongoose.connect(databaseUrl, err => {
             if (err) {
