@@ -119,10 +119,11 @@ div.nav-options a {
 }
 
 #login-title, #signup-title {
-    text-align: center;
     font-size: 60px;
     font-family: sans-serif;
     margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #username, #user-password, #user-firstname, 
