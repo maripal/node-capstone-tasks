@@ -31,14 +31,6 @@ nav {
     margin-top: 150px;
 }
 
-/*i {
-    border-width: 0 3px 3px 0;
-    display: inline-block;
-    padding: 3px;
-    margin-left: 5px;
-    margin-bottom: 2px;
-  }*/
-
 .down {
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
@@ -113,6 +105,12 @@ div.nav-options a {
     color: #496eca;
 }
 
+.signupGreeting {
+    text-align: center;
+    font-size: 34px;
+    font-family: 'Oswald', sans-serif;
+}
+
 /* login and signup form styles */
 .login-section, .signup-section {
     width: 100%;
@@ -163,15 +161,24 @@ div.nav-options a {
     padding: 0;
 }
 
+.postButton {
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
 .card-post {
     width: 100%;
     background-color: white;
     border: 2px solid #89ceeb;
     border-radius: 5px;
-    margin-bottom: 20px;
     padding: 50px 10px;
-    font-size: 18px;
-    font-family: sans-serif;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: bold;
     letter-spacing: 2px;
     color: black;
     text-align: center;
@@ -184,8 +191,12 @@ div.nav-options a {
 }
 
 .usernameGreetingHeader {
-    font-family: sans-serif;
-    font-size: 30px;
+    font-size: 35px;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin-bottom: 35px;
+    text-align: center;
 }
 
 /* buttons styles */
@@ -252,6 +263,8 @@ div.nav-options a {
     right: 15px;
     color: white;
     font-size: 22px;
+    background-color: transparent;
+    border: none;
 }
 
 #js-new-post-input, #js-note-input, #js-edit-post {
@@ -315,6 +328,7 @@ div.nav-options a {
 
 .notesHeader, .imagesHeader {
     color: white;
+    font-family: 'Oswald', sans-serif;
     font-size: 24px;
     display: block;
     background-color: black;
@@ -331,20 +345,15 @@ div.nav-options a {
     float: right;
     font-size: 22px;
     color: white;
-    padding: 0;
+    padding: 5px 5px;
 }
-
-/*.noteList {
-    list-style: none;
-    padding: 0;
-}*/
 
 #noteList {
     margin-left: 20px;
-    font-family: sans-serif;
-    font-size: 16px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
     padding: 0;
-    padding-left: 10px;
+    padding-left: 20px;
 }
 
 .noteListItem {
@@ -385,25 +394,22 @@ div.nav-options a {
 }
 
 #uploadImageTitle {
-    font-size: 18px;
-    font-family: sans-serif;
-    margin-bottom: 20px;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-family: 'Oswald', sans-serif;
+    padding: 5px 10px;
+    color: white;
 }
 
 .postImage {
-    width: 100px;
+    width: 100%;
+    margin-left: -20px;
 }
 
-/*#myImage {
-    display: block;
-    width: 100%;
-    height: 40px;
-    border: 1px solid white;
-    border-radius: 5px;
-    background-color: white;
-    padding-top: 8px;
-    font-size: 14px;
-}*/
+#imageList {
+    list-style: none;
+}
 
 label.imageUploadButton input[type="file"] {
     position: absolute;
@@ -411,11 +417,12 @@ label.imageUploadButton input[type="file"] {
 }
 
 .imageUploadButton {
-    border: 2px solid #AAA;
-    border-radius: 4px;
-    padding: 2px 5px;
-    margin: 2px;
-    background: #DDD;
+    width: 180px;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+    background: #5680e9;
     display: inline-block;
 }
 
@@ -425,17 +432,6 @@ label.imageUploadButton input[type="file"] {
 
 /* Media queries for bigger screen sizes */
 @media only screen and (min-width: 640px) {
-    /*.col-12 {
-        width: 100%;
-    }
-
-    .col-8 {
-        width: 100%;
-    }
-
-    .col-4 {
-        width: 100%;
-    }*/
 
     #landing-login-button, #landing-signup-button {
         width: 70%;
@@ -464,6 +460,10 @@ label.imageUploadButton input[type="file"] {
 
     #login-submit-button, #signup-button {
         width: 70%;
+    }
+
+    .usernameGreetingHeader {
+        font-size: 40px;
     }
 
     /* post list page view styles */
@@ -513,7 +513,7 @@ label.imageUploadButton input[type="file"] {
     }
 
     .login-section, .signup-section {
-        margin-top: 250px;
+        margin-top: 200px;
     }
 
     #username, #user-password, #user-firstname, 
@@ -527,7 +527,7 @@ label.imageUploadButton input[type="file"] {
     }
 
     .create {
-        width: 35%;
+        width: 45%;
         height: 51px;
     }
 
@@ -548,7 +548,27 @@ label.imageUploadButton input[type="file"] {
     }
 
     #noteList {
-        font-size: 18px;
+        font-size: 20px;
+    }
+
+    .imagesCollectionSection {
+        overflow: auto;
+    }
+
+    .postImage {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .imageDiv {
+        max-width: 50%;
+        float: left;
+        padding-left: 1%;
+        padding-right: 1%;
+        margin-left: -2%;
+        margin-right: 2%;
+        min-height: 20em;
+        margin-bottom: 10px;
     }
 
     .closeWindow, .closeEditWindow, .closeNoteWindow, .closeImageWindow {
@@ -559,7 +579,7 @@ label.imageUploadButton input[type="file"] {
 @media only screen and (min-width: 1024px) {
     .landing-page-info {
         text-align: center;
-        margin-top: 300px;
+        margin-top: 250px;
     }
 
     #landing-login-button, #landing-signup-button {
@@ -568,19 +588,36 @@ label.imageUploadButton input[type="file"] {
     }
 
     .login-section, .signup-section {
-        width: 60%;
+        width: 65%;
     }
 
     .userAccountOptions {
         font-size: 16px;
     }
 
+    .menuOptions {
+        background-color: transparent;
+        border-top: transparent;
+    }
+
+    .usernameGreetingHeader {
+        font-size: 50px;
+        margin-bottom: 50px;
+    }
+
     .card-post {
         /*box-shadow: 0 1px 6px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.24);*/
         transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+        font-size: 35px;
     }
 
     .card-post:hover {
         box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
       }
+
+      .imageDiv {
+          width: 33.33%;
+          min-height: 26em;
+      }
+
 }
